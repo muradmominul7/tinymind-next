@@ -16,8 +16,13 @@
   },
   "home": {
     "title": "Our products",
-    "loading": "Loading...",
     "empty": "No products found."
+  },
+  "category": {
+    "empty": "No products in this category yet.",
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page"
   },
   "footer": {
     "tagline": "Learning and play, made for little minds.",

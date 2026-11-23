@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
 
 export default function Header({ lang, t }) {
@@ -46,6 +47,8 @@ export default function Header({ lang, t }) {
           </form>
         </div>
       </div>
+
+      <CategoryNav lang={lang} />
     </header>
   );
 }

@@ -10,3 +10,7 @@ export function formatMoney(value, locale) {
     maximumFractionDigits: 0,
   }).format(n);
 }
+
+export function formatNumber(value, locale) {
+  return new Intl.NumberFormat(locale === "bn" ? "bn-BD" : "en-BD").format(Number(value));
+}
