@@ -1,0 +1,26 @@
+{
+  "site": {
+    "name": "TinyMind",
+    "title": "TinyMind",
+    "description": "Educational toys, books and gifts for children."
+  },
+  "language": {
+    "bn": "বাংলা",
+    "en": "English"
+  },
+  "header": {
+    "promo": "Get UPTO 40% OFF on your 1st order",
+    "shopNow": "SHOP NOW",
+    "searchPlaceholder": "Search products here",
+    "searchButton": "Search"
+  },
+  "home": {
+    "title": "Our products",
+    "loading": "Loading...",
+    "empty": "No products found."
+  },
+  "footer": {
+    "tagline": "Learning and play, made for little minds.",
+    "rights": "All rights reserved."
+  }
+}

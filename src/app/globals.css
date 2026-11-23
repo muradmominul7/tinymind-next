@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
+/* Brand palette: change a color here and the whole site follows. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand: #07335a;
+  --brand-alt: #018f95;
+  --heading: #05345c;
+  --text: #5b6b7d;
+  --bg: #ffffff;
+  --bg-secondary: #f5f7f8;
+  --bg-subtle: #e5e9ec;
+  --accent: #fec225;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand: var(--brand);
+  --color-brand-alt: var(--brand-alt);
+  --color-heading: var(--heading);
+  --color-body: var(--text);
+  --color-page: var(--bg);
+  --color-secondary: var(--bg-secondary);
+  --color-subtle: var(--bg-subtle);
+  --color-accent: var(--accent);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }

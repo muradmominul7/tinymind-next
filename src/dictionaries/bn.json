@@ -1,0 +1,26 @@
+{
+  "site": {
+    "name": "TinyMind",
+    "title": "TinyMind",
+    "description": "শিশুদের জন্য শিক্ষামূলক খেলনা, বই ও উপহার।"
+  },
+  "language": {
+    "bn": "বাংলা",
+    "en": "English"
+  },
+  "header": {
+    "promo": "প্রথম অর্ডারে ৪০% পর্যন্ত ছাড়",
+    "shopNow": "এখনই কিনুন",
+    "searchPlaceholder": "এখানে পণ্য খুঁজুন",
+    "searchButton": "খুঁজুন"
+  },
+  "home": {
+    "title": "আমাদের পণ্য",
+    "loading": "লোড হচ্ছে...",
+    "empty": "কোনো পণ্য পাওয়া যায়নি।"
+  },
+  "footer": {
+    "tagline": "ছোটদের শেখা ও খেলার সেরা সঙ্গী।",
+    "rights": "সর্বস্বত্ব সংরক্ষিত।"
+  }
+}
