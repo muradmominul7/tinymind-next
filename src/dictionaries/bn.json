@@ -27,5 +27,11 @@
   "footer": {
     "tagline": "ছোটদের শেখা ও খেলার সেরা সঙ্গী।",
     "rights": "সর্বস্বত্ব সংরক্ষিত।"
+  },
+  "product": {
+    "description": "বিবরণ",
+    "inStock": "স্টকে আছে",
+    "outOfStock": "স্টক শেষ",
+    "addToCart": "কার্টে যোগ করুন"
   }
 }

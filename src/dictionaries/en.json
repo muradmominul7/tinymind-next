@@ -27,5 +27,11 @@
   "footer": {
     "tagline": "Learning and play, made for little minds.",
     "rights": "All rights reserved."
+  },
+  "product": {
+    "description": "Description",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart"
   }
 }
