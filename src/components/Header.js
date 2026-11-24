@@ -45,7 +45,7 @@ export default function Header({ lang, t }) {
             />
             <button
               type="submit"
-              className="rounded-full bg-brand px-5 py-2 font-display text-sm font-semibold text-white"
+              className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white"
             >
               {t.header.searchButton}
             </button>

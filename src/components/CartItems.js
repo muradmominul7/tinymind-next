@@ -75,7 +75,7 @@ export default function CartItems({ lang, items, labels }) {
             </div>
           </div>
 
-          <p className="shrink-0 font-display text-lg font-bold text-brand">{item.totalText}</p>
+          <p className="shrink-0 text-lg font-bold text-brand">{item.totalText}</p>
         </li>
       ))}
     </ul>

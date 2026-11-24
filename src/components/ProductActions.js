@@ -63,7 +63,7 @@ export default function ProductActions({ productId, lang, labels, disabled = fal
           doneLabel={labels.added}
           errorLabel={labels.error}
           disabled={disabled}
-          className="flex-1 rounded-lg border border-brand px-6 py-3 font-display font-semibold text-brand hover:bg-secondary disabled:opacity-40"
+          className="flex-1 rounded-lg border border-brand px-6 py-3 font-semibold text-brand hover:bg-secondary disabled:opacity-40"
         />
       </div>
 
@@ -71,7 +71,7 @@ export default function ProductActions({ productId, lang, labels, disabled = fal
         type="button"
         disabled={disabled || pending}
         onClick={buyNow}
-        className="rounded-lg bg-brand px-6 py-3 font-display font-semibold text-white hover:bg-brand-alt disabled:opacity-40"
+        className="rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-alt disabled:opacity-40"
       >
         {labels.buyNow}
       </button>

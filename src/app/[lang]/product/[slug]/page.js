@@ -130,7 +130,7 @@ export default async function ProductPage({ params }) {
             {onSale && (
               <span className="text-lg line-through">{formatPrice(product.price, lang)}</span>
             )}
-            <span className="font-display text-3xl font-bold text-brand">
+            <span className="text-3xl font-bold text-brand">
               {formatPrice(price, lang)}
             </span>
           </p>
@@ -146,7 +146,7 @@ export default async function ProductPage({ params }) {
       {product.description && (
         <section className="mt-12">
           <div className="flex justify-center rounded-lg bg-secondary">
-            <h2 className="border-b-2 border-brand px-8 py-3 font-display text-lg font-semibold text-heading">
+            <h2 className="border-b-2 border-brand px-8 py-3 text-lg font-semibold text-heading">
               {t.product.description}
             </h2>
           </div>

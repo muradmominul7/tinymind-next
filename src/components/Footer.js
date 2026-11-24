@@ -40,7 +40,7 @@ export default function Footer({ lang, t }) {
                 <Icon className="h-6 w-6" />
               </span>
               <div>
-                <p className="font-display text-lg font-semibold text-heading">{item.title}</p>
+                <p className="text-lg font-semibold text-heading">{item.title}</p>
                 <p className="text-sm">{item.text}</p>
               </div>
             </div>
@@ -57,7 +57,7 @@ export default function Footer({ lang, t }) {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="mb-3 inline-block border-b border-white/40 pb-1 font-display text-lg font-semibold">
+              <h2 className="mb-3 inline-block border-b border-white/40 pb-1 text-lg font-semibold">
                 {f[col.title]}
               </h2>
               <ul className="space-y-2 text-sm">

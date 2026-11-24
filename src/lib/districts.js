@@ -1,0 +1,81 @@
+// The 64 districts of Bangladesh. Codes match the "country_states" table (BD01...BD64);
+// the delivery charge in Bagisto is looked up by this code. "en" is the name stored on the order.
+// The names shown in the dropdown come from the dictionary ("districts" in bn.json / en.json).
+export const DISTRICTS = [
+  { code: "BD01", en: "Bagerhat" },
+  { code: "BD02", en: "Bandarban" },
+  { code: "BD03", en: "Barguna" },
+  { code: "BD04", en: "Barishal" },
+  { code: "BD05", en: "Bhola" },
+  { code: "BD06", en: "Bogura" },
+  { code: "BD07", en: "Brahmanbaria" },
+  { code: "BD08", en: "Chandpur" },
+  { code: "BD09", en: "Chapainawabganj" },
+  { code: "BD10", en: "Chattogram" },
+  { code: "BD11", en: "Chuadanga" },
+  { code: "BD12", en: "Cox's Bazar" },
+  { code: "BD13", en: "Cumilla" },
+  { code: "BD14", en: "Dhaka" },
+  { code: "BD15", en: "Dinajpur" },
+  { code: "BD16", en: "Faridpur" },
+  { code: "BD17", en: "Feni" },
+  { code: "BD18", en: "Gaibandha" },
+  { code: "BD19", en: "Gazipur" },
+  { code: "BD20", en: "Gopalganj" },
+  { code: "BD21", en: "Habiganj" },
+  { code: "BD22", en: "Jamalpur" },
+  { code: "BD23", en: "Jashore" },
+  { code: "BD24", en: "Jhalokati" },
+  { code: "BD25", en: "Jhenaidah" },
+  { code: "BD26", en: "Joypurhat" },
+  { code: "BD27", en: "Khagrachhari" },
+  { code: "BD28", en: "Khulna" },
+  { code: "BD29", en: "Kishoreganj" },
+  { code: "BD30", en: "Kurigram" },
+  { code: "BD31", en: "Kushtia" },
+  { code: "BD32", en: "Lakshmipur" },
+  { code: "BD33", en: "Lalmonirhat" },
+  { code: "BD34", en: "Madaripur" },
+  { code: "BD35", en: "Magura" },
+  { code: "BD36", en: "Manikganj" },
+  { code: "BD37", en: "Meherpur" },
+  { code: "BD38", en: "Moulvibazar" },
+  { code: "BD39", en: "Munshiganj" },
+  { code: "BD40", en: "Mymensingh" },
+  { code: "BD41", en: "Naogaon" },
+  { code: "BD42", en: "Narail" },
+  { code: "BD43", en: "Narayanganj" },
+  { code: "BD44", en: "Narsingdi" },
+  { code: "BD45", en: "Natore" },
+  { code: "BD46", en: "Netrokona" },
+  { code: "BD47", en: "Nilphamari" },
+  { code: "BD48", en: "Noakhali" },
+  { code: "BD49", en: "Pabna" },
+  { code: "BD50", en: "Panchagarh" },
+  { code: "BD51", en: "Patuakhali" },
+  { code: "BD52", en: "Pirojpur" },
+  { code: "BD53", en: "Rajbari" },
+  { code: "BD54", en: "Rajshahi" },
+  { code: "BD55", en: "Rangamati" },
+  { code: "BD56", en: "Rangpur" },
+  { code: "BD57", en: "Satkhira" },
+  { code: "BD58", en: "Shariatpur" },
+  { code: "BD59", en: "Sherpur" },
+  { code: "BD60", en: "Sirajganj" },
+  { code: "BD61", en: "Sunamganj" },
+  { code: "BD62", en: "Sylhet" },
+  { code: "BD63", en: "Tangail" },
+  { code: "BD64", en: "Thakurgaon" },
+];
+
+export function districtByCode(code) {
+  return DISTRICTS.find((d) => d.code === code) ?? null;
+}
+
+// For the dropdown: `names` is t.districts (code -> display name). Falls back to the English name.
+export function districtOptions(names, lang) {
+  const locale = lang === "bn" ? "bn" : "en";
+  return DISTRICTS.map((d) => ({ code: d.code, name: names?.[d.code] || d.en })).sort((a, b) =>
+    a.name.localeCompare(b.name, locale)
+  );
+}

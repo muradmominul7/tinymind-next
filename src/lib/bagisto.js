@@ -25,6 +25,13 @@ export async function bagistoRequest(
   if (!res.ok) {
     const error = new Error(`Bagisto API error ${res.status} on ${path}`);
     error.status = res.status;
+    // The API explains failures in the body ("Cart is empty", ...). Kept for server logs only.
+    try {
+      const body = await res.json();
+      error.detail = body?.detail ?? body?.message ?? null;
+    } catch {
+      error.detail = null;
+    }
     throw error;
   }
 

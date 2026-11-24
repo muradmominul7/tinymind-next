@@ -29,7 +29,7 @@ export default async function CartPage({ params }) {
         <p className="mb-6">{t.cart.empty}</p>
         <Link
           href={`/${lang}`}
-          className="inline-block rounded-lg bg-brand px-6 py-3 font-display font-semibold text-white hover:bg-brand-alt"
+          className="inline-block rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-alt"
         >
           {t.cart.continue}
         </Link>
@@ -79,22 +79,20 @@ export default async function CartPage({ params }) {
           )}
 
           <div className={`${row} mt-4 border-t border-subtle pt-4`}>
-            <span className="font-display text-lg font-semibold text-heading">{t.cart.total}</span>
-            <span className="font-display text-2xl font-bold text-brand">
+            <span className="text-lg font-semibold text-heading">{t.cart.total}</span>
+            <span className="text-2xl font-bold text-brand">
               {formatPrice(cart.grandTotal, lang)}
             </span>
           </div>
 
           <p className="mt-2 text-sm">{t.cart.shippingNote}</p>
 
-          {/* Checkout is built in the next phase. */}
-          <button
-            type="button"
-            disabled
-            className="mt-5 w-full rounded-lg bg-brand px-6 py-3 font-display font-semibold text-white opacity-60"
+          <Link
+            href={`/${lang}/checkout`}
+            className="mt-5 block w-full rounded-lg bg-brand px-6 py-3 text-center font-semibold text-white hover:bg-brand-alt"
           >
             {t.cart.checkout}
-          </button>
+          </Link>
 
           <Link
             href={`/${lang}`}
