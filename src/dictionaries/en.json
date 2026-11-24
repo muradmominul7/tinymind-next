@@ -74,11 +74,30 @@
     "quantity": "Quantity",
     "buyNow": "Buy now",
     "decrease": "Decrease quantity",
-    "increase": "Increase quantity"
+    "increase": "Increase quantity",
+    "added": "Added",
+    "error": "Try again"
   },
   "card": {
     "offer": "Offer",
     "addToCart": "Add to cart",
-    "wishlist": "Add to wishlist"
+    "wishlist": "Add to wishlist",
+    "viewOptions": "Select options"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "checkout": "Checkout",
+    "shippingNote": "Delivery charge is shown at checkout.",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "added": "Added",
+    "error": "Try again"
   }
 }

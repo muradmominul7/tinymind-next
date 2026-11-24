@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
-import { BagIcon, UserIcon } from "./icons";
+import CartLink from "./CartLink";
+import { UserIcon } from "./icons";
 
 export default function Header({ lang, t }) {
   const other = lang === "bn" ? "en" : "bn";
@@ -50,11 +51,9 @@ export default function Header({ lang, t }) {
             </button>
           </form>
 
-          {/* Cart and account come in a later phase. */}
+          {/* Account comes in a later phase. */}
           <div className="ml-auto flex items-center gap-1 md:ml-0">
-            <button type="button" aria-label={t.header.cart} className={iconButton}>
-              <BagIcon />
-            </button>
+            <CartLink lang={lang} label={t.header.cart} />
             <button type="button" aria-label={t.header.account} className={iconButton}>
               <UserIcon />
             </button>

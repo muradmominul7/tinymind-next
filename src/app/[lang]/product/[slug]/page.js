@@ -79,7 +79,12 @@ export default async function ProductPage({ params }) {
     increase: t.product.increase,
     addToCart: t.product.addToCart,
     buyNow: t.product.buyNow,
+    added: t.product.added,
+    error: t.product.error,
   };
+
+  // Products with options (configurable, bundle...) need their option picker first; only simple ones can be bought here.
+  const purchasable = inStock && (!product.type || product.type === "simple" || product.type === "virtual");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -134,7 +139,7 @@ export default async function ProductPage({ params }) {
             {inStock ? t.product.inStock : t.product.outOfStock}
           </p>
 
-          <ProductActions labels={labels} disabled={!inStock} />
+          <ProductActions productId={product.id} lang={lang} labels={labels} disabled={!purchasable} />
         </div>
       </div>
 
