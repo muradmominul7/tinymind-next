@@ -34,7 +34,14 @@
       "created_at-asc": "পুরাতন → নতুন",
       "price-asc": "দাম: কম → বেশি",
       "price-desc": "দাম: বেশি → কম"
-    }
+    },
+    "filter": "ফিল্টার",
+    "clearAll": "সব ক্লিয়ার করুন",
+    "price": "মূল্য",
+    "priceRange": "দামের সীমা",
+    "priceFrom": "সর্বনিম্ন দাম",
+    "priceTo": "সর্বোচ্চ দাম",
+    "noResults": "কোনো পণ্য মেলেনি।"
   },
   "footer": {
     "tagline": "ছোটদের শেখা ও খেলার সেরা সঙ্গী।",
@@ -211,5 +218,11 @@
     "BD62": "Sylhet",
     "BD63": "Tangail",
     "BD64": "Thakurgaon"
+  },
+  "search": {
+    "title": "সার্চ",
+    "resultsFor": "সার্চের ফলাফল",
+    "prompt": "খুঁজতে কিছু লিখুন।",
+    "empty": "কোনো পণ্য পাওয়া যায়নি।"
   }
 }

@@ -34,7 +34,14 @@
       "created_at-asc": "Oldest → Newest",
       "price-asc": "Price: Low → High",
       "price-desc": "Price: High → Low"
-    }
+    },
+    "filter": "Filter",
+    "clearAll": "Clear all",
+    "price": "Price",
+    "priceRange": "Price range",
+    "priceFrom": "Minimum price",
+    "priceTo": "Maximum price",
+    "noResults": "No products match your filters."
   },
   "footer": {
     "tagline": "Learning and play, made for little minds.",
@@ -211,5 +218,11 @@
     "BD62": "Sylhet",
     "BD63": "Tangail",
     "BD64": "Thakurgaon"
+  },
+  "search": {
+    "title": "Search",
+    "resultsFor": "Search results for",
+    "prompt": "Type something to search.",
+    "empty": "No products found."
   }
 }
