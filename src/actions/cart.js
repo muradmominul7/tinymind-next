@@ -5,10 +5,14 @@ import { revalidatePath } from "next/cache";
 import { isLocale } from "@/lib/i18n";
 import { cartApi, COOKIE_MAX_AGE, COUNT_COOKIE, TOKEN_COOKIE } from "@/lib/cart";
 
-const secure = process.env.NODE_ENV === "production";
+const base = {
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  maxAge: COOKIE_MAX_AGE,
+};
 
 function remember(jar, token, cart) {
-  const base = { secure, sameSite: "lax", path: "/", maxAge: COOKIE_MAX_AGE };
   jar.set(TOKEN_COOKIE, token, { ...base, httpOnly: true });
   jar.set(COUNT_COOKIE, String(Number(cart?.itemsQty) || 0), { ...base, httpOnly: false });
 }
@@ -72,6 +76,15 @@ export async function removeCartItem({ itemId, lang }) {
   if (!id || !isLocale(lang)) return invalid;
 
   const result = await withCart(lang, "/remove-cart-item", { cartItemId: id });
+
+  // Bagisto closes a cart when its last item is removed, so that token is dead from now on.
+  // Forget it, so the next "add to cart" starts a fresh cart instead of using the dead one.
+  if (result.ok && result.count === 0) {
+    const jar = await cookies();
+    jar.delete(TOKEN_COOKIE);
+    jar.set(COUNT_COOKIE, "0", { ...base, httpOnly: false });
+  }
+
   revalidatePath(`/${lang}/cart`);
   return result;
 }

@@ -29,7 +29,8 @@ export async function readCart(lang) {
   try {
     return await cartApi("/cart", {}, { token, locale: lang });
   } catch (error) {
-    console.error("readCart failed", error.message);
+    // 404 = the cart behind this token no longer exists (e.g. it was emptied): treat as an empty cart.
+    if (error.status !== 404) console.error("readCart failed", error.message);
     return null;
   }
 }
