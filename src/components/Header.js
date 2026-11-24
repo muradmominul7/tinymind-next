@@ -2,35 +2,39 @@ import Link from "next/link";
 import { Suspense } from "react";
 import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
+import { BagIcon, UserIcon } from "./icons";
 
 export default function Header({ lang, t }) {
   const other = lang === "bn" ? "en" : "bn";
+  const iconButton = "rounded-full p-2 text-heading hover:bg-secondary";
 
   return (
     <header>
       <div className="bg-brand text-sm text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5">
-          <p>
+        <div className="mx-auto flex max-w-site items-center justify-between gap-3 px-4 py-1.5 md:grid md:grid-cols-[1fr_auto_1fr]">
+          <p className="md:col-start-2 md:text-center">
             {t.header.promo}{" "}
             <Link href={`/${lang}`} className="font-semibold underline">
               {t.header.shopNow}
             </Link>
           </p>
-          <Suspense fallback={null}>
-            <LocaleSwitcher lang={lang} label={t.language[other]} />
-          </Suspense>
+          <div className="flex shrink-0 justify-end md:col-start-3">
+            <Suspense fallback={null}>
+              <LocaleSwitcher lang={lang} label={t.language[other]} />
+            </Suspense>
+          </div>
         </div>
       </div>
 
       <div className="border-b border-subtle bg-page">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-          <Link href={`/${lang}`} className="text-2xl font-extrabold text-brand">
-            {t.site.name}
+        <div className="mx-auto flex max-w-site flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3">
+          <Link href={`/${lang}`} aria-label={t.site.name} className="shrink-0">
+            <img src="/logo.svg" alt={t.site.name} className="h-10 w-auto md:h-12" />
           </Link>
 
           <form
             action={`/${lang}/search`}
-            className="ml-auto flex w-full max-w-md items-center rounded-full bg-secondary pl-4"
+            className="order-last flex w-full items-center rounded-full bg-secondary pl-4 md:order-none md:ml-auto md:max-w-lg"
           >
             <input
               name="q"
@@ -40,11 +44,21 @@ export default function Header({ lang, t }) {
             />
             <button
               type="submit"
-              className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white"
+              className="rounded-full bg-brand px-5 py-2 font-display text-sm font-semibold text-white"
             >
               {t.header.searchButton}
             </button>
           </form>
+
+          {/* Cart and account come in a later phase. */}
+          <div className="ml-auto flex items-center gap-1 md:ml-0">
+            <button type="button" aria-label={t.header.cart} className={iconButton}>
+              <BagIcon />
+            </button>
+            <button type="button" aria-label={t.header.account} className={iconButton}>
+              <UserIcon />
+            </button>
+          </div>
         </div>
       </div>
 

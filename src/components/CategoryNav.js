@@ -14,7 +14,7 @@ export default async function CategoryNav({ lang }) {
 
   return (
     <nav className="bg-brand text-white">
-      <ul className="mx-auto flex max-w-7xl gap-6 overflow-x-auto whitespace-nowrap px-4 py-2.5 text-sm font-semibold">
+      <ul className="mx-auto flex max-w-site gap-7 overflow-x-auto whitespace-nowrap px-4 py-2.5 font-display text-base font-semibold">
         {categories.map((c) => (
           <li key={c.id}>
             <Link href={categoryHref(lang, c)} className="hover:text-accent">

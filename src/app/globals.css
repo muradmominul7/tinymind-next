@@ -27,3 +27,19 @@ body {
   background: var(--bg);
   color: var(--text);
 }
+
+/* Phase 3d: site width (1440px content) and font stacks. The font files are loaded in [lang]/layout.js. */
+@theme inline {
+  --container-site: 92rem;
+  --font-sans: var(--font-inter), var(--font-hind), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-baloo), var(--font-hind), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+}

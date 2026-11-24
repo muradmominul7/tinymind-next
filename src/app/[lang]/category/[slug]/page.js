@@ -48,12 +48,12 @@ export default async function CategoryPage({ params, searchParams }) {
 
   return (
     <section>
-      <h1 className="mb-6 text-2xl font-bold text-heading">{category.translation?.name}</h1>
+      <h1 className="mb-6 text-2xl font-bold text-heading md:text-3xl">{category.translation?.name}</h1>
 
       {items.length ? (
-        <ul className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
           {items.map((p) => (
-            <ProductCard key={p.id} product={p} lang={lang} />
+            <ProductCard key={p.id} product={p} lang={lang} t={t} />
           ))}
         </ul>
       ) : (

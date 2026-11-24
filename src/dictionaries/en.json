@@ -12,7 +12,9 @@
     "promo": "Get UPTO 40% OFF on your 1st order",
     "shopNow": "SHOP NOW",
     "searchPlaceholder": "Search products here",
-    "searchButton": "Search"
+    "searchButton": "Search",
+    "cart": "Cart",
+    "account": "Account"
   },
   "home": {
     "title": "Our products",
@@ -26,12 +28,57 @@
   },
   "footer": {
     "tagline": "Learning and play, made for little minds.",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "brand": "TinyMind",
+    "about": "TinyMind is a companion for children's learning, play and growth. We offer quality books, educational toys and everyday essentials to support your child's happy growing up.",
+    "company": "Company",
+    "customer": "Customer service",
+    "legal": "Legal",
+    "links": {
+      "aboutUs": "About us",
+      "contact": "Contact",
+      "trackOrder": "Track your order",
+      "shippingPolicy": "Shipping policy",
+      "allPolicies": "All policies",
+      "terms": "Terms and conditions",
+      "privacy": "Privacy policy"
+    },
+    "address": "Shop No. 04, JFCL Market Complex, Tarakandi, Sarishabari, Jamalpur - 2051.",
+    "phone": "09638 977 422",
+    "email": "support@tinymind.com.bd",
+    "features": [
+      {
+        "title": "Free shipping",
+        "text": "Enjoy free shipping on all orders"
+      },
+      {
+        "title": "Exchange products",
+        "text": "Easy product exchange available!"
+      },
+      {
+        "title": "EMI available",
+        "text": "No-cost EMI available on all major credit cards"
+      },
+      {
+        "title": "24/7 support",
+        "text": "Chat and email support available 24/7"
+      }
+    ]
   },
   "product": {
     "description": "Description",
     "inStock": "In stock",
     "outOfStock": "Out of stock",
-    "addToCart": "Add to cart"
+    "addToCart": "Add to cart",
+    "home": "Home",
+    "quantity": "Quantity",
+    "buyNow": "Buy now",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "card": {
+    "offer": "Offer",
+    "addToCart": "Add to cart",
+    "wishlist": "Add to wishlist"
   }
 }
