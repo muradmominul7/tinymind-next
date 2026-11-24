@@ -5,6 +5,10 @@ export const FIRST_NAME_FALLBACK = "Customer";
 export const LAST_NAME_FALLBACK = "-";
 export const ADDRESS_FALLBACK = "-";
 export const CITY_FALLBACK = "-";
+// The API will not create an order without an email address, but the form does not ask for one.
+// The visitor's phone number is used as the mailbox name. Mails sent to it go nowhere, so if you
+// ever want order e-mails, add an e-mail field to the form instead.
+export const EMAIL_FALLBACK_DOMAIN = "noemail.tinymind.com.bd";
 // A state the delivery rules do not know: the API then gives the default (highest) delivery charge.
 export const NO_DISTRICT_STATE = "N/A";
 
@@ -37,6 +41,10 @@ export function phoneProblem(value, finished = false) {
   if (s.length > 11) return "phoneTooLong";
   if (s.length < 11) return finished ? "phoneShort" : null;
   return null;
+}
+
+export function fallbackEmail(phone) {
+  return `${normalizePhone(phone)}@${EMAIL_FALLBACK_DOMAIN}`;
 }
 
 // Bangladesh mobile: 01 + operator digit (3-9) + 8 digits

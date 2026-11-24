@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FooterGate from "@/components/FooterGate";
 import { getDictionary, isLocale, locales } from "@/lib/i18n";
 import "../globals.css";
 
@@ -57,7 +58,9 @@ export default async function RootLayout({ children, params }) {
       <body className="min-h-screen bg-page text-body antialiased">
         <Header lang={lang} t={t} />
         <main className="mx-auto w-full max-w-site px-4 py-6">{children}</main>
-        <Footer lang={lang} t={t} />
+        <FooterGate>
+          <Footer lang={lang} t={t} />
+        </FooterGate>
       </body>
     </html>
   );

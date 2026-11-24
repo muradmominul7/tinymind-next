@@ -62,9 +62,13 @@ export default function ProductCard({ product: p, lang, t, variant = "grid" }) {
 
   if (list) {
     return (
-      <li className="relative flex overflow-hidden rounded-xl border border-subtle bg-page">
-        <Link href={href} className="block w-40 shrink-0 sm:w-60">
-          <img src={p.baseImageUrl} alt={p.name} className="aspect-square h-full w-full object-cover" />
+      <li className="group relative flex overflow-hidden rounded-xl border border-subtle bg-page">
+        <Link href={href} className="block w-40 shrink-0 overflow-hidden sm:w-60">
+          <img
+            src={p.baseImageUrl}
+            alt={p.name}
+            className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
         </Link>
         <div className="flex min-w-0 flex-1 flex-col gap-2 p-4">
           <Link href={href} className="line-clamp-2 text-lg font-medium text-heading hover:text-brand-alt">
@@ -80,9 +84,15 @@ export default function ProductCard({ product: p, lang, t, variant = "grid" }) {
   }
 
   return (
-    <li className="relative flex flex-col overflow-hidden rounded-xl border border-subtle bg-page">
+    <li className="group relative flex flex-col overflow-hidden rounded-xl border border-subtle bg-page">
       <Link href={href} className="flex flex-1 flex-col">
-        <img src={p.baseImageUrl} alt={p.name} className="aspect-square w-full object-cover" />
+        <div className="overflow-hidden">
+          <img
+            src={p.baseImageUrl}
+            alt={p.name}
+            className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
         <div className="flex flex-1 flex-col px-3 pt-3">
           <p className="line-clamp-2 font-medium text-heading">{p.name}</p>
           <div className="mt-auto pt-3">{price}</div>

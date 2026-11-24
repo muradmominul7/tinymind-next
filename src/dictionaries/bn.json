@@ -14,7 +14,9 @@
     "searchPlaceholder": "এখানে পণ্য সার্চ করুন...",
     "searchButton": "সার্চ",
     "cart": "কার্ট",
-    "account": "অ্যাকাউন্ট"
+    "account": "অ্যাকাউন্ট",
+    "viewAll": "সব ফলাফল দেখুন",
+    "noResults": "কোনো পণ্য পাওয়া যায়নি।"
   },
   "home": {
     "title": "আমাদের পণ্য",
@@ -151,7 +153,13 @@
       "phoneShort": "নম্বরে ১১টি অঙ্ক দিতে হবে"
     },
     "optional": "ঐচ্ছিক",
-    "deliveryHint": "জেলা বাছলে ডেলিভারি চার্জ কমতে পারে"
+    "deliveryHint": "জেলা বাছলে ডেলিভারি চার্জ কমতে পারে",
+    "consentBefore": "আমি সকল",
+    "consentTerms": "শর্তাবলী",
+    "consentAnd": "ও",
+    "consentPolicies": "সকল নীতিমালা",
+    "consentAfter": "মেনে অর্ডার করছি।",
+    "consentRequired": "অর্ডার করতে শর্তাবলীতে সম্মতি দিন।"
   },
   "districts": {
     "BD01": "Bagerhat",

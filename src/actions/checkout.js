@@ -6,6 +6,7 @@ import { cartApi, COOKIE_MAX_AGE, COUNT_COOKIE, TOKEN_COOKIE } from "@/lib/cart"
 import {
   ADDRESS_FALLBACK,
   CITY_FALLBACK,
+  fallbackEmail,
   NO_DISTRICT_STATE,
   normalizePhone,
   splitName,
@@ -89,6 +90,7 @@ export async function placeOrder({ lang, name, phone, district, address }) {
       {
         billingFirstName: first.slice(0, 100),
         billingLastName: last.slice(0, 100),
+        billingEmail: fallbackEmail(phone),
         billingPhoneNumber: normalizePhone(phone),
         billingAddress: String(address ?? "").trim().slice(0, 300) || ADDRESS_FALLBACK,
         ...placeFields(district),

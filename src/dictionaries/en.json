@@ -14,7 +14,9 @@
     "searchPlaceholder": "Search products here",
     "searchButton": "Search",
     "cart": "Cart",
-    "account": "Account"
+    "account": "Account",
+    "viewAll": "View all results",
+    "noResults": "No products found."
   },
   "home": {
     "title": "Our products",
@@ -151,7 +153,13 @@
       "phoneShort": "The number needs 11 digits"
     },
     "optional": "Optional",
-    "deliveryHint": "Choose your district; the delivery charge may be lower"
+    "deliveryHint": "Choose your district; the delivery charge may be lower",
+    "consentBefore": "I agree to all",
+    "consentTerms": "Terms & Conditions",
+    "consentAnd": "and",
+    "consentPolicies": "All Policies",
+    "consentAfter": "and placing this order.",
+    "consentRequired": "Please agree to the terms to place your order."
   },
   "districts": {
     "BD01": "Bagerhat",

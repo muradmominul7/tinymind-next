@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { placeOrder, quoteDelivery } from "@/actions/checkout";
 import { announceCart } from "@/lib/cart-events";
 import { phoneProblem, validateCheckout } from "@/lib/checkout";
 import { formatPrice } from "@/lib/product";
+import { TruckIcon } from "./icons";
 
 // Colourful fields: teal border with a thicker bottom edge.
 const input =
@@ -18,6 +20,8 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
   const router = useRouter();
   const [values, setValues] = useState({ name: "", phone: "", district: "", address: "" });
   const [phoneTouched, setPhoneTouched] = useState(false);
+  const [agree, setAgree] = useState(true);
+  const [consentError, setConsentError] = useState(false);
   const [failed, setFailed] = useState(null);
   const [delivery, setDelivery] = useState({ status: "loading", price: 0 });
   const [pending, start] = useTransition();
@@ -48,12 +52,14 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
   // Warns while typing about mistakes typing more cannot fix; reports an unfinished number once the field is left.
   const phoneIssue = phoneProblem(values.phone, phoneTouched);
 
-  // Only the phone number can stop the order. Name, district and address are asked for but never block it.
+  // Only the phone number and the terms checkbox can stop the order.
+  // Name, district and address are asked for but never block it.
   function onSubmit(event) {
     event.preventDefault();
     setPhoneTouched(true);
     setFailed(null);
-    if (Object.keys(validateCheckout(values)).length) return;
+    setConsentError(!agree);
+    if (!agree || Object.keys(validateCheckout(values)).length) return;
 
     start(async () => {
       const result = await placeOrder({ lang, ...values });
@@ -76,6 +82,7 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
       *
     </span>
   );
+  const link = "font-medium text-brand underline hover:text-brand-alt";
 
   const submit = (
     <button type="submit" disabled={pending} className={buttonClass}>
@@ -157,14 +164,6 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
             className={input}
           />
         </div>
-
-        <div>
-          <h2 className="mb-2 text-xl font-bold text-heading">{labels.payment}</h2>
-          <div className="rounded-xl border border-brand-alt bg-secondary p-4">
-            <p className="font-semibold text-heading">{labels.cod}</p>
-            <p className="text-sm">{labels.codText}</p>
-          </div>
-        </div>
       </div>
 
       <aside className="h-fit rounded-xl border border-subtle p-5">
@@ -212,6 +211,43 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
           </div>
         </div>
 
+        {/* Payment method, then the terms checkbox, then the button. */}
+        <div className="mt-5 flex items-center gap-3 rounded-xl border border-subtle p-4">
+          <TruckIcon className="h-6 w-6 shrink-0 text-heading" />
+          <div>
+            <p className="font-semibold text-heading">{labels.cod}</p>
+            <p className="text-sm">{labels.codText}</p>
+          </div>
+        </div>
+
+        <label className="mt-4 flex cursor-pointer items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={agree}
+            onChange={(e) => {
+              setAgree(e.target.checked);
+              setConsentError(false);
+            }}
+            className="mt-0.5 h-4 w-4 shrink-0 accent-brand"
+          />
+          <span>
+            {labels.consentBefore}{" "}
+            <Link href={`/${lang}/pages/terms`} target="_blank" className={link}>
+              {labels.consentTerms}
+            </Link>{" "}
+            {labels.consentAnd}{" "}
+            <Link href={`/${lang}/pages/policies`} target="_blank" className={link}>
+              {labels.consentPolicies}
+            </Link>{" "}
+            {labels.consentAfter}
+          </span>
+        </label>
+        {consentError && (
+          <p role="alert" className="mt-1 text-sm text-red-600">
+            {labels.consentRequired}
+          </p>
+        )}
+
         {failed && (
           <p role="alert" className="mt-4 text-sm font-semibold text-red-600">
             {failed === "emptyCart" ? labels.emptyCart : labels.failed}
@@ -219,7 +255,7 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
         )}
 
         {/* Desktop: the button sits under the summary. */}
-        <div className="mt-5 hidden lg:block">{submit}</div>
+        <div className="mt-4 hidden lg:block">{submit}</div>
       </aside>
 
       {/* Phone: the button floats at the bottom of the screen. */}

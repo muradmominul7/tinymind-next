@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
 import CartLink from "./CartLink";
+import SearchBox from "./SearchBox";
 import { UserIcon } from "./icons";
 
 export default function Header({ lang, t }) {
@@ -33,23 +34,15 @@ export default function Header({ lang, t }) {
             <img src="/logo.svg" alt={t.site.name} className="h-10 w-auto md:h-12" />
           </Link>
 
-          <form
-            action={`/${lang}/search`}
-            className="order-last flex w-full items-center rounded-full bg-secondary pl-4 md:order-none md:ml-auto md:max-w-lg"
-          >
-            <input
-              name="q"
-              type="search"
-              placeholder={t.header.searchPlaceholder}
-              className="w-full bg-transparent py-2 text-sm outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white"
-            >
-              {t.header.searchButton}
-            </button>
-          </form>
+          <SearchBox
+            lang={lang}
+            labels={{
+              placeholder: t.header.searchPlaceholder,
+              button: t.header.searchButton,
+              viewAll: t.header.viewAll,
+              noResults: t.header.noResults,
+            }}
+          />
 
           {/* Account comes in a later phase. */}
           <div className="ml-auto flex items-center gap-1 md:ml-0">
