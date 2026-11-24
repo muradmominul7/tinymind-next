@@ -94,7 +94,7 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="grid gap-8 pb-20 lg:grid-cols-[minmax(0,640px)_minmax(0,480px)] lg:justify-between lg:pb-0"
+      className="grid gap-8 pb-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-10 lg:pb-0"
     >
       <div className="space-y-5">
         <h2 className="text-xl font-bold text-heading">{labels.details}</h2>

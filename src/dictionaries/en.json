@@ -16,7 +16,10 @@
     "cart": "Cart",
     "account": "Account",
     "viewAll": "View all results",
-    "noResults": "No products found."
+    "noResults": "No products found.",
+    "menu": "Menu",
+    "menuClose": "Close menu",
+    "categories": "Categories"
   },
   "home": {
     "title": "Our products",
@@ -232,5 +235,9 @@
     "resultsFor": "Search results for",
     "prompt": "Type something to search.",
     "empty": "No products found."
+  },
+  "languageShort": {
+    "bn": "বাংলা",
+    "en": "EN"
   }
 }

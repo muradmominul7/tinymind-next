@@ -43,3 +43,66 @@ body {
     font-family: var(--font-display);
   }
 }
+
+/* Phase 4g: sticky header */
+/* Scrolling down moves the header up by --hdr-hide (set by ScrollHeader): the top bar on wide screens,
+   the logo row on phones. The header keeps its place in the page, so the page never jumps. */
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  transition: top 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hdr[data-compact="true"] {
+  top: calc(-1 * var(--hdr-hide, 0px));
+}
+
+.hdr[data-stuck="true"] {
+  box-shadow: 0 2px 10px rgb(5 52 92 / 0.12);
+}
+
+/* Phones: the cart icon next to the search bar appears only while the logo row is hidden. */
+.hdr-compact-cart {
+  visibility: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.hdr[data-compact="true"] .hdr-compact-cart {
+  visibility: visible;
+  max-width: 3rem;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hdr,
+  .hdr-compact-cart {
+    transition: none;
+  }
+}
+
+/* Phase 4h: hamburger beside the search bar */
+/* Phones: like the cart icon, it appears only while the logo row is hidden. */
+.hdr-compact-menu {
+  visibility: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.hdr[data-compact="true"] .hdr-compact-menu {
+  visibility: visible;
+  max-width: 3rem;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hdr-compact-menu {
+    transition: none;
+  }
+}
