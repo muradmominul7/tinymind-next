@@ -1,8 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { bagistoFetch } from "@/lib/bagisto";
-import { cartApi, COOKIE_MAX_AGE, COUNT_COOKIE, TOKEN_COOKIE } from "@/lib/cart";
+import {
+  cartApi,
+  COOKIE_MAX_AGE,
+  COUNT_COOKIE,
+  TOKEN_COOKIE,
+} from "@/lib/cart";
 import {
   ADDRESS_FALLBACK,
   CITY_FALLBACK,
@@ -14,10 +18,11 @@ import {
 } from "@/lib/checkout";
 import { districtByCode } from "@/lib/districts";
 import { isLocale } from "@/lib/i18n";
+import { cookies } from "next/headers";
 
 const PAYMENT_METHOD = "cashondelivery"; // the only payment method for now
 
-const list = (json) => (Array.isArray(json) ? json : json?.member ?? []);
+const list = (json) => (Array.isArray(json) ? json : (json?.member ?? []));
 
 function log(label, error) {
   console.error(label, error.status ?? "", error.message, error.detail ?? "");
@@ -60,7 +65,7 @@ export async function quoteDelivery({ lang, district }) {
         ...placeFields(district),
         useForShipping: true,
       },
-      { token, locale: lang }
+      { token, locale: lang },
     );
     const rate = list(await rates(token, lang))[0];
     return rate ? { ok: true, price: Number(rate.price) || 0 } : { ok: false };
@@ -72,7 +77,8 @@ export async function quoteDelivery({ lang, district }) {
 
 export async function placeOrder({ lang, name, phone, district, address }) {
   if (!isLocale(lang)) return { ok: false, reason: "failed" };
-  if (district && !districtByCode(district)) return { ok: false, reason: "failed" };
+  if (district && !districtByCode(district))
+    return { ok: false, reason: "failed" };
 
   const errors = validateCheckout({ phone });
   if (Object.keys(errors).length) return { ok: false, errors };
@@ -92,22 +98,36 @@ export async function placeOrder({ lang, name, phone, district, address }) {
         billingLastName: last.slice(0, 100),
         billingEmail: fallbackEmail(phone),
         billingPhoneNumber: normalizePhone(phone),
-        billingAddress: String(address ?? "").trim().slice(0, 300) || ADDRESS_FALLBACK,
+        billingAddress:
+          String(address ?? "")
+            .trim()
+            .slice(0, 300) || ADDRESS_FALLBACK,
         ...placeFields(district),
         useForShipping: true,
       },
-      auth
+      auth,
     );
 
     const rate = list(await rates(token, lang))[0];
     if (!rate) return { ok: false, reason: "failed" };
 
-    await cartApi("/checkout-shipping-methods", { shippingMethod: rate.method }, auth);
-    await cartApi("/checkout-payment-methods", { paymentMethod: PAYMENT_METHOD }, auth);
+    await cartApi(
+      "/checkout-shipping-methods",
+      { shippingMethod: rate.method },
+      auth,
+    );
+    await cartApi(
+      "/checkout-payment-methods",
+      { paymentMethod: PAYMENT_METHOD },
+      auth,
+    );
     const order = await cartApi("/checkout-orders", {}, auth);
 
     // The order response shape was not checked beforehand, so its keys are logged once for the server console.
-    console.log("order placed, response keys:", Object.keys(order ?? {}).join(","));
+    console.log(
+      "order placed, response keys:",
+      Object.keys(order ?? {}).join(","),
+    );
 
     // The cart is closed once it becomes an order: forget its token.
     jar.delete(TOKEN_COOKIE);
@@ -119,7 +139,8 @@ export async function placeOrder({ lang, name, phone, district, address }) {
       httpOnly: false,
     });
 
-    const orderNo = order?.incrementId ?? order?.orderIncrementId ?? order?.id ?? order?.orderId ?? null;
+    const orderNo = order?.incrementId ?? null;
+
     return { ok: true, orderNo: orderNo === null ? null : String(orderNo) };
   } catch (error) {
     log("placeOrder failed", error);
