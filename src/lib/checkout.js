@@ -8,7 +8,7 @@ export const CITY_FALLBACK = "-";
 // The API will not create an order without an email address, but the form does not ask for one.
 // The visitor's phone number is used as the mailbox name. Mails sent to it go nowhere, so if you
 // ever want order e-mails, add an e-mail field to the form instead.
-export const EMAIL_FALLBACK_DOMAIN = "noemail.tinymind.com.bd";
+export const EMAIL_FALLBACK_DOMAIN = "nomail.com";
 // A state the delivery rules do not know: the API then gives the default (highest) delivery charge.
 export const NO_DISTRICT_STATE = "N/A";
 
@@ -55,8 +55,13 @@ export function isValidPhone(value) {
 // "Md Rahim Uddin" -> first "Md Rahim", last "Uddin"; a single word gets the fallback last name,
 // an empty name gets the fallback first name too.
 export function splitName(name) {
-  const parts = String(name ?? "").trim().replace(/\s+/g, " ").split(" ").filter(Boolean);
-  if (parts.length === 0) return { first: FIRST_NAME_FALLBACK, last: LAST_NAME_FALLBACK };
+  const parts = String(name ?? "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .filter(Boolean);
+  if (parts.length === 0)
+    return { first: FIRST_NAME_FALLBACK, last: LAST_NAME_FALLBACK };
   if (parts.length === 1) return { first: parts[0], last: LAST_NAME_FALLBACK };
   const last = parts.pop();
   return { first: parts.join(" "), last };
