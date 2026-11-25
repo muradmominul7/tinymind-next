@@ -40,7 +40,7 @@ export default function Header({ lang, t }) {
         <div className="border-b border-subtle bg-page">
           <div className="mx-auto max-w-site px-4 md:flex md:items-center md:gap-4 md:py-3">
             <div data-hdr-row className="flex items-center gap-1 py-2 md:contents">
-              <MenuButton label={t.header.menu} className={`${iconButton} -ml-2 md:hidden`} />
+              <MenuButton label={t.header.menu} closeLabel={t.header.menuClose} className={`${iconButton} -ml-2 md:hidden`} />
 
               <Link href={`/${lang}`} aria-label={t.site.name} className="mr-auto shrink-0 md:order-1 md:mr-0">
                 <img src="/logo.svg" alt={t.site.name} className="h-10 w-auto md:h-12" />
@@ -64,7 +64,7 @@ export default function Header({ lang, t }) {
             <div className="flex items-center pb-3 md:contents">
               {/* Phones: these two appear only while the logo row is hidden. */}
               <div className="hdr-compact-menu md:hidden">
-                <MenuButton label={t.header.menu} className={`${iconButton} -ml-2`} />
+                <MenuButton label={t.header.menu} closeLabel={t.header.menuClose} className={`${iconButton} -ml-2`} />
               </div>
 
               <div className="min-w-0 flex-1 md:order-2 md:ml-auto md:w-full md:max-w-lg md:flex-initial">
@@ -96,7 +96,7 @@ export default function Header({ lang, t }) {
       </div>
 
       <Suspense fallback={null}>
-        <MobileMenu lang={lang} labels={{ title: t.header.categories, close: t.header.menuClose }} />
+        <MobileMenu lang={lang} labels={{ signIn: t.header.signIn, signUp: t.header.signUp }} />
       </Suspense>
     </>
   );

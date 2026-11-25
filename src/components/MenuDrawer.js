@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { MENU_EVENT } from "@/lib/menu-events";
+import { useEffect, useState } from "react";
+import { MENU_STATE, MENU_TOGGLE } from "@/lib/menu-events";
 
-// Phone menu: slides in from the left and lists every category at once.
-export default function MenuDrawer({ labels, items }) {
+// Phone menu panel. It opens right under the header (the header stays visible), with the Sign in and
+// Sign up buttons first and then every category.
+export default function MenuDrawer({ lang, labels, items }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const closeButton = useRef(null);
+  const [top, setTop] = useState(0); // where the header ends, in px from the top of the screen
 
   useEffect(() => {
-    const onOpen = () => setOpen(true);
-    window.addEventListener(MENU_EVENT, onOpen);
-    return () => window.removeEventListener(MENU_EVENT, onOpen);
+    const onToggle = () => setOpen((value) => !value);
+    window.addEventListener(MENU_TOGGLE, onToggle);
+    return () => window.removeEventListener(MENU_TOGGLE, onToggle);
   }, []);
 
   // Moving to another page closes the menu.
@@ -23,7 +24,17 @@ export default function MenuDrawer({ labels, items }) {
   }, [pathname]);
 
   useEffect(() => {
+    window.dispatchEvent(new CustomEvent(MENU_STATE, { detail: open }));
     if (!open) return;
+
+    const measure = () => {
+      const header = document.querySelector(".hdr");
+      if (header) setTop(Math.max(0, Math.round(header.getBoundingClientRect().bottom)));
+      if (window.innerWidth >= 768) setOpen(false); // the menu is for phones only
+    };
+    measure();
+    const later = setTimeout(measure, 350); // the header may still be sliding when the menu opens
+    window.addEventListener("resize", measure);
 
     const onKey = (event) => {
       if (event.key === "Escape") setOpen(false);
@@ -32,9 +43,10 @@ export default function MenuDrawer({ labels, items }) {
 
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden"; // the page behind does not scroll
-    closeButton.current?.focus();
 
     return () => {
+      clearTimeout(later);
+      window.removeEventListener("resize", measure);
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previous;
     };
@@ -43,61 +55,41 @@ export default function MenuDrawer({ labels, items }) {
   return (
     <div className={`md:hidden ${open ? "" : "pointer-events-none"}`}>
       <div
-        onClick={() => setOpen(false)}
-        aria-hidden="true"
-        className={`fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300 ${
-          open ? "opacity-100" : "opacity-0"
-        }`}
-      />
-
-      <aside
-        role="dialog"
-        aria-modal="true"
-        aria-label={labels.title}
         inert={!open}
-        className={`fixed inset-y-0 left-0 z-[70] flex w-[85%] max-w-sm flex-col bg-page shadow-xl transition-transform duration-300 ease-out ${
-          open ? "translate-x-0" : "-translate-x-full"
+        style={{ top }}
+        className={`fixed inset-x-0 bottom-0 z-30 overflow-y-auto bg-page transition duration-300 ease-out ${
+          open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-subtle bg-brand px-4 py-3 text-white">
-          <p className="text-lg font-semibold">{labels.title}</p>
-          <button
-            ref={closeButton}
-            type="button"
-            onClick={() => setOpen(false)}
-            aria-label={labels.close}
-            className="rounded-full p-2 hover:bg-white/10"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="22"
-              height="22"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
+        <div className="px-4 pb-8 pt-4">
+          <div className="grid grid-cols-2 gap-3">
+            <Link
+              href={`/${lang}/login`}
+              className="rounded-lg bg-brand px-4 py-2.5 text-center font-semibold text-white hover:bg-brand-alt"
             >
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          </button>
-        </div>
+              {labels.signIn}
+            </Link>
+            <Link
+              href={`/${lang}/register`}
+              className="rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
+            >
+              {labels.signUp}
+            </Link>
+          </div>
 
-        <nav className="flex-1 overflow-y-auto">
-          <ul className="divide-y divide-subtle">
-            {items.map((item) => (
-              <li key={item.id}>
-                <Link
-                  href={item.href}
-                  className="block px-5 py-3.5 text-base font-medium text-heading hover:bg-secondary"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+          <nav className="mt-4 border-t border-subtle pt-2">
+            <ul>
+              {items.map((item) => (
+                <li key={item.id}>
+                  <Link href={item.href} className="block px-1 py-3 text-base text-heading hover:text-brand-alt">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
   );
 }

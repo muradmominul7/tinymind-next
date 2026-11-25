@@ -19,7 +19,9 @@
     "noResults": "No products found.",
     "menu": "Menu",
     "menuClose": "Close menu",
-    "categories": "Categories"
+    "categories": "Categories",
+    "signIn": "Sign in",
+    "signUp": "Sign up"
   },
   "home": {
     "title": "Our products",
