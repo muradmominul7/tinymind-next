@@ -232,7 +232,7 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
           />
           <span>
             {labels.consentBefore}{" "}
-            <Link href={`/${lang}/pages/terms`} target="_blank" className={link}>
+            <Link href={`/${lang}/terms-conditions`} target="_blank" className={link}>
               {labels.consentTerms}
             </Link>{" "}
             {labels.consentAnd}{" "}

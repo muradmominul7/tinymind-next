@@ -9,14 +9,18 @@ import {
   TruckIcon,
 } from "./icons";
 
-// The pages behind these links are built later (CMS pages), so for now they open a 404.
+// Every link opens /{lang}/{slug}. Most are CMS pages managed in the Bagisto admin panel.
 const columns = [
   { title: "company", links: [["aboutUs", "about-us"], ["contact", "contact"]] },
   {
     title: "customer",
-    links: [["trackOrder", "track-order"], ["shippingPolicy", "shipping-policy"], ["allPolicies", "policies"]],
+    links: [
+      ["trackOrder", "track-order"],
+      ["shippingPolicy", "shipping-policy"],
+      ["allPolicies", "policies"],
+    ],
   },
-  { title: "legal", links: [["terms", "terms"], ["privacy", "privacy"]] },
+  { title: "legal", links: [["terms", "terms-conditions"], ["privacy", "privacy-policy"]] },
 ];
 
 const featureIcons = [TruckIcon, PackageIcon, DollarIcon, HeadphonesIcon];
@@ -63,7 +67,7 @@ export default function Footer({ lang, t }) {
               <ul className="space-y-2 text-sm">
                 {col.links.map(([key, slug]) => (
                   <li key={slug}>
-                    <Link href={`/${lang}/pages/${slug}`} className="opacity-90 hover:text-accent hover:opacity-100">
+                    <Link href={slug.startsWith("#") ? slug : `/${lang}/${slug}`} className="opacity-90 hover:text-accent hover:opacity-100">
                       {f.links[key]}
                     </Link>
                   </li>
@@ -74,7 +78,7 @@ export default function Footer({ lang, t }) {
         </div>
 
         <div className="border-t border-white/15">
-          <div className="mx-auto flex max-w-site flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-4 text-sm">
+          <div id="contact" className="mx-auto flex max-w-site flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-4 text-sm">
             <span className="flex items-center gap-2">
               <PinIcon className="h-4 w-4 shrink-0" />
               {f.address}

@@ -241,5 +241,14 @@
   "languageShort": {
     "bn": "বাংলা",
     "en": "EN"
+  },
+  "contact": {
+    "title": "Contact us",
+    "intro": "We are happy to help. Reach us whichever way is easiest for you.",
+    "address": "Address",
+    "phone": "Hotline",
+    "email": "Email",
+    "hours": "Support hours",
+    "hoursValue": "Every day, 10 AM to 9 PM"
   }
 }
