@@ -106,3 +106,180 @@ body {
     transition: none;
   }
 }
+
+/* Phase 4l: CMS pages */
+/* The pages are written in the Bagisto admin panel with these classes (policy-page, policy-card, ...). */
+.policy-page {
+  max-width: 760px;
+  margin: 2rem auto 3rem;
+  padding-inline: 0.25rem;
+}
+
+.policy-card {
+  margin-bottom: 1.25rem;
+  padding: 2rem 2.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--bg-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px rgb(5 52 92 / 0.06);
+}
+
+@media (max-width: 640px) {
+  .policy-card {
+    padding: 1.25rem 1rem;
+  }
+}
+
+.policy-card h1 {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.policy-updated {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  font-size: 0.8125rem;
+}
+
+.policy-updated + p {
+  text-align: center;
+}
+
+.policy-card h2 {
+  margin: 1.75rem 0 0.6rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.policy-card p {
+  margin: 0 0 0.9rem;
+  line-height: 1.85;
+}
+
+.policy-card ul,
+.policy-card ol {
+  margin: 0 0 1rem;
+  padding-left: 1.4rem;
+  line-height: 1.8;
+}
+
+.policy-card ul {
+  list-style: disc;
+}
+
+.policy-card ol {
+  list-style: decimal;
+}
+
+.policy-card li {
+  margin-bottom: 0.35rem;
+  padding-left: 0.2rem;
+}
+
+.policy-card li::marker {
+  color: var(--brand-alt);
+}
+
+.policy-card strong,
+.policy-card b {
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.policy-card a:not(.policy-btn) {
+  color: var(--brand-alt);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.policy-card a:not(.policy-btn):hover {
+  color: var(--brand);
+}
+
+.policy-table-wrap {
+  margin: 0.75rem 0 1.25rem;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--bg-subtle);
+  border-radius: 0.5rem;
+}
+
+.policy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.policy-table th {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+}
+
+.policy-table td {
+  padding: 0.65rem 0.9rem;
+  vertical-align: top;
+  line-height: 1.6;
+  border-top: 1px solid var(--bg-subtle);
+}
+
+.policy-table tbody tr:nth-child(even) td {
+  background: var(--bg-secondary);
+}
+
+.policy-note {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: rgb(1 143 149 / 0.1);
+  border-left: 4px solid var(--brand-alt);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.policy-note h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.policy-note p:last-child {
+  margin-bottom: 0;
+}
+
+.policy-actions {
+  margin-top: 1.75rem;
+  text-align: center;
+}
+
+.policy-btn {
+  display: inline-block;
+  padding: 0.65rem 1.4rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+  border: 2px solid var(--brand);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.policy-btn:hover {
+  color: #fff;
+  background: var(--brand);
+}
+
+/* Phase 4m: gap before the compact cart icon */
+/* The gap grows together with the icon, so there is no empty space while the icon is hidden. */
+.hdr-compact-cart {
+  margin-left: 0;
+  transition: max-width 0.3s ease, margin-left 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.hdr[data-compact="true"] .hdr-compact-cart {
+  margin-left: 0.625rem;
+}

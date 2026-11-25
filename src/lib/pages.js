@@ -19,8 +19,13 @@ const APP_ROUTES = new Set([
 
 // CMS pages were written for the old site, where a page lived at "/return-policy" or "/page/return-policy".
 // Here a page lives at "/{lang}/return-policy", so links inside the content get the language in front.
+// Some links were saved with the full address of the old site (for example the local test address),
+// so those are handled as well.
+const OLD_SITE = "(?:https?:\\/\\/(?:www\\.)?(?:tinymind-2\\.5\\.0\\.test|tinymind-headless\\.test|tinymind\\.com\\.bd))?";
+const LINK = new RegExp(`href="${OLD_SITE}\\/(?:page\\/)?([a-z0-9-]+)\\/?"`, "gi");
+
 function fixLinks(html, lang) {
-  return html.replace(/href="\/(?:page\/)?([a-z0-9-]+)\/?"/gi, (match, key) =>
+  return html.replace(LINK, (match, key) =>
     APP_ROUTES.has(key.toLowerCase()) ? match : `href="/${lang}/${key}"`
   );
 }

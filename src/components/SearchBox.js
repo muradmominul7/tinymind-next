@@ -101,9 +101,23 @@ export default function SearchBox({ lang, labels }) {
         />
         <button
           type="submit"
-          className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-alt"
+          aria-label={labels.button}
+          className="flex items-center justify-center rounded-full bg-brand p-2 text-white transition-colors hover:bg-brand-alt md:px-5 md:text-sm md:font-semibold"
         >
-          {labels.button}
+          <svg
+            viewBox="0 0 24 24"
+            className="h-5 w-5 md:hidden"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+          <span className="hidden md:inline">{labels.button}</span>
         </button>
       </form>
 
