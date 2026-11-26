@@ -1,10 +1,17 @@
-import localFont from "next/font/local";
-import { notFound } from "next/navigation";
-import Header from "@/components/Header";
+import CartWidget from "@/components/CartWidget";
+import ContactWidget from "@/components/ContactWidget";
 import Footer from "@/components/Footer";
 import FooterGate from "@/components/FooterGate";
-import CartWidget from "@/components/CartWidget";
-import { getDictionary, getLocaleSettings, isLocale, getLocales } from "@/lib/i18n";
+import Header from "@/components/Header";
+import { getContactWidget } from "@/lib/contact-widget";
+import {
+  getDictionary,
+  getLocales,
+  getLocaleSettings,
+  isLocale,
+} from "@/lib/i18n";
+import localFont from "next/font/local";
+import { notFound } from "next/navigation";
 import "../globals.css";
 
 // Self-hosted fonts (files live in src/fonts). Roles: Baloo 2 = headings and navigation,
@@ -25,10 +32,26 @@ const inter = localFont({
 
 const hind = localFont({
   src: [
-    { path: "../../fonts/HindSiliguri-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../../fonts/HindSiliguri-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../../fonts/HindSiliguri-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "../../fonts/HindSiliguri-Bold.woff2", weight: "700", style: "normal" },
+    {
+      path: "../../fonts/HindSiliguri-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../fonts/HindSiliguri-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../fonts/HindSiliguri-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../fonts/HindSiliguri-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
   ],
   variable: "--font-hind",
   display: "swap",
@@ -54,10 +77,15 @@ export default async function RootLayout({ children, params }) {
   if (!(await isLocale(lang))) notFound();
   const t = await getDictionary(lang);
   const { locales } = await getLocaleSettings();
+  const contact = await getContactWidget(lang);
   const direction = locales.find((l) => l.code === lang)?.direction ?? "ltr";
 
   return (
-    <html lang={lang} dir={direction} className={`${baloo.variable} ${inter.variable} ${hind.variable}`}>
+    <html
+      lang={lang}
+      dir={direction}
+      className={`${baloo.variable} ${inter.variable} ${hind.variable}`}
+    >
       <body className="min-h-screen bg-page text-body antialiased">
         <Header lang={lang} t={t} />
         <main className="mx-auto w-full max-w-site px-4 py-6">{children}</main>
@@ -82,6 +110,7 @@ export default async function RootLayout({ children, params }) {
             remove: t.cart.remove,
           }}
         />
+        {contact && <ContactWidget config={contact} />}
       </body>
     </html>
   );

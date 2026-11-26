@@ -1,0 +1,12 @@
+{
+  "open": "Need help?",
+  "close": "Close",
+  "channels": {
+    "whatsapp": "Order on WhatsApp",
+    "messenger": "Chat on Messenger",
+    "call": "Call us now"
+  },
+  "waDefaultMessage": "I would like to know about your products.",
+  "waProductMessage": "I want to order this product: {name} - {url}",
+  "messengerCopyNotice": "Message copied. Paste it in Messenger and send."
+}

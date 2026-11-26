@@ -1,5 +1,6 @@
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { ContactProduct } from "@/components/ContactWidget";
+import ProductActions from "@/components/ProductActions";
+import ProductGallery from "@/components/ProductGallery";
 import { bagistoFetch } from "@/lib/bagisto";
 import { getDictionary, isLocale } from "@/lib/i18n";
 import {
@@ -10,8 +11,8 @@ import {
   productImages,
   stripHtml,
 } from "@/lib/product";
-import ProductGallery from "@/components/ProductGallery";
-import ProductActions from "@/components/ProductActions";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 // Styles for HTML written in the admin (descriptions): lists, headings, links.
 const richText =
@@ -37,7 +38,9 @@ export async function generateMetadata({ params }) {
   const product = await getProduct(id, lang);
   if (!product) return {};
 
-  const description = stripHtml(product.shortDescription || product.description).slice(0, 160);
+  const description = stripHtml(
+    product.shortDescription || product.description,
+  ).slice(0, 160);
   const image = productImages(product)[0];
 
   return {
@@ -59,7 +62,10 @@ export default async function ProductPage({ params }) {
   const id = parseProductId(slug);
   if (!id) notFound();
 
-  const [t, product] = await Promise.all([getDictionary(lang), getProduct(id, lang)]);
+  const [t, product] = await Promise.all([
+    getDictionary(lang),
+    getProduct(id, lang),
+  ]);
   if (!product) notFound();
 
   // One canonical URL per product and language.
@@ -84,7 +90,9 @@ export default async function ProductPage({ params }) {
   };
 
   // Products with options (configurable, bundle...) need their option picker first; only simple ones can be bought here.
-  const purchasable = inStock && (!product.type || product.type === "simple" || product.type === "virtual");
+  const purchasable =
+    inStock &&
+    (!product.type || product.type === "simple" || product.type === "virtual");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -92,7 +100,9 @@ export default async function ProductPage({ params }) {
     name: product.name,
     sku: product.sku,
     image: images,
-    description: stripHtml(product.shortDescription || product.description).slice(0, 500),
+    description: stripHtml(
+      product.shortDescription || product.description,
+    ).slice(0, 500),
     offers: {
       "@type": "Offer",
       priceCurrency: "BDT",
@@ -105,8 +115,14 @@ export default async function ProductPage({ params }) {
 
   return (
     <div>
-      <nav aria-label="breadcrumb" className="mb-6 flex items-center gap-2 text-sm">
-        <Link href={`/${lang}`} className="font-medium text-heading hover:text-brand-alt">
+      <nav
+        aria-label="breadcrumb"
+        className="mb-6 flex items-center gap-2 text-sm"
+      >
+        <Link
+          href={`/${lang}`}
+          className="font-medium text-heading hover:text-brand-alt"
+        >
           {t.product.home}
         </Link>
         <span aria-hidden="true">›</span>
@@ -114,10 +130,13 @@ export default async function ProductPage({ params }) {
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+        <ContactProduct name={product.name} />
         <ProductGallery images={images} name={product.name} />
 
         <div>
-          <h1 className="text-2xl font-bold text-heading md:text-3xl">{product.name}</h1>
+          <h1 className="text-2xl font-bold text-heading md:text-3xl">
+            {product.name}
+          </h1>
 
           {product.shortDescription && (
             <div
@@ -128,18 +147,27 @@ export default async function ProductPage({ params }) {
 
           <p className="mt-5 flex items-baseline gap-3">
             {onSale && (
-              <span className="text-lg line-through">{formatPrice(product.price, lang)}</span>
+              <span className="text-lg line-through">
+                {formatPrice(product.price, lang)}
+              </span>
             )}
             <span className="text-3xl font-bold text-brand">
               {formatPrice(price, lang)}
             </span>
           </p>
 
-          <p className={`mt-2 text-sm font-semibold ${inStock ? "text-brand-alt" : "text-red-600"}`}>
+          <p
+            className={`mt-2 text-sm font-semibold ${inStock ? "text-brand-alt" : "text-red-600"}`}
+          >
             {inStock ? t.product.inStock : t.product.outOfStock}
           </p>
 
-          <ProductActions productId={product.id} lang={lang} labels={labels} disabled={!purchasable} />
+          <ProductActions
+            productId={product.id}
+            lang={lang}
+            labels={labels}
+            disabled={!purchasable}
+          />
         </div>
       </div>
 
@@ -159,7 +187,9 @@ export default async function ProductPage({ params }) {
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
     </div>
   );

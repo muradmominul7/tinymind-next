@@ -1,0 +1,558 @@
+/* =========================================================
+   TinyMind Floating Contact Widget — CSS
+   এই ফাইলটা public/contact-widget/css/tmc-contact.css হিসেবে রাখুন
+   ========================================================= */
+
+:root {
+  /* --- রং (Colors) --- */
+  --tmc-main-bg: #018F95;
+  /* Main "সাহায্য দরকার?" বাটনের ডিফল্ট রং (সাইটের হলুদ) */
+  --tmc-main-color: #FFFFFF;
+  /* Main বাটনের লেখার রং (হলুদের উপর navy বেশি স্পষ্ট দেখাবে) */
+  --tmc-main-hover-bg: #018F95;
+  /* মাউস হভার করলে ব্যাকগ্রাউন্ড (brand #018F95) */
+  --tmc-main-hover-color: #ffffff;
+  --tmc-wa-bg: #02BC37;
+  /* WhatsApp বাটনের রং (পরিচিত সবুজ, বদলানোর দরকার নেই) */
+  --tmc-ms-bg: #0866FF;
+  /* Messenger বাটনের রং (পরিচিত নীল) */
+  --tmc-call-bg: #008F02;
+  /* Call বাটনের রং (standard phone-green, brand color না) */
+
+  /* --- সাইজ ও পজিশন (px) --- */
+  --tmc-bottom-desktop: 90px;
+  --tmc-bottom-mobile: 80px;
+  --tmc-side: 18px;
+  --tmc-button-size-desktop: 48px;
+  --tmc-button-size-mobile: 46px;
+  --tmc-icon-size-desktop: 24px;
+  --tmc-icon-size-mobile: 22px;
+  --tmc-gap: 10px;
+  --tmc-z: 40;
+
+  /* --- Main বাটনের সাইজ --- */
+  --tmc-main-width-desktop: 160px;
+  --tmc-main-height-desktop: 44px;
+  --tmc-main-width-mobile: 44px;
+  --tmc-main-height-mobile: 44px;
+  --tmc-main-padding-y: 0px;
+  --tmc-main-padding-x: 8px;
+  --tmc-main-radius: 999px;
+  --tmc-main-font-size: 14px;
+  --tmc-main-font-weight: 600;
+  --tmc-main-icon-gap: 8px;
+
+  --tmc-animation-interval: 7s;
+
+  /* --- Open/Close অ্যানিমেশন টাইমিং (Chaty প্লাগইনের লজিক অনুসরণ করে) --- */
+  --tmc-spin-duration: 1.15s;
+  /* আইকন spin+crossfade হতে যত সময় লাগবে */
+  --tmc-icon-out-rotate: -720deg;
+  /* ডিফল্ট আইকন বের হয়ে যাওয়ার সময় যত ঘুরবে (Chaty-এর আসল ভ্যালু) */
+  --tmc-icon-in-rotate: 720deg;
+  /* Close(X) আইকন ভেসে ওঠার সময় যত ঘুরবে (Chaty-এর আসল ভ্যালু) */
+  --tmc-item-duration: .7s;
+  /* প্রতিটা Contact বাটন এক্সপান্ড/ক্লোজ হতে যত সময় লাগবে (ধীরে) */
+  --tmc-item-stagger: .18s;
+  /* একটার পর একটা বাটন কতটা দেরিতে শুরু হবে */
+}
+
+.tmc-launcher {
+  position: fixed;
+  bottom: var(--tmc-bottom-desktop);
+  z-index: var(--tmc-z);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--tmc-gap);
+  line-height: 1
+}
+
+.tmc-pos-right {
+  right: var(--tmc-side)
+}
+
+.tmc-pos-left {
+  left: var(--tmc-side);
+  align-items: flex-start
+}
+
+.tmc-main,
+.tmc-item {
+  width: auto;
+  min-width: var(--tmc-button-size-desktop);
+  height: var(--tmc-button-size-desktop);
+  border: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+  text-decoration: none !important;
+  cursor: pointer
+}
+
+.tmc-item {
+  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease
+}
+
+.tmc-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+  opacity: .96
+}
+
+.tmc-main {
+  position: relative;
+  overflow: hidden;
+  background: var(--tmc-main-bg) !important;
+  color: var(--tmc-main-color) !important;
+  font-weight: 500;
+  width: var(--tmc-button-size-desktop) !important;
+  min-width: var(--tmc-button-size-desktop) !important;
+  height: var(--tmc-button-size-desktop) !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  font-size: var(--tmc-main-font-size) !important;
+  font-weight: var(--tmc-main-font-weight) !important;
+  gap: 0 !important;
+  box-sizing: border-box !important;
+  font-family: inherit;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color .5s ease, color .5s ease, box-shadow .5s ease, transform .5s ease;
+}
+
+.tmc-main .tmc-label {
+  display: none !important;
+}
+
+.tmc-main .tmc-icon-img {
+  filter: none;
+}
+
+/* ডিফল্ট (হলুদ) অবস্থায় আইকন কালো */
+.tmc-main:hover .tmc-icon-img {
+  filter: none;
+}
+
+/* Hover (টিল) অবস্থায় আইকন আগের মতো সাদা */
+.tmc-main:hover {
+  background: var(--tmc-main-hover-bg) !important;
+  color: var(--tmc-main-hover-color) !important;
+  transform: scale(1.06);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+}
+
+.tmc-main .tmc-label {
+  color: inherit !important;
+}
+
+/* =========================================================
+   Main আইকন spin+crossfade — হুবহু Chaty প্লাগইনের আসল লজিক অনুসরণ করে:
+   ডিফল্ট আইকন rotate(540deg) দিয়ে ঘুরে মিলিয়ে যায়, আর Close(X) আইকন
+   rotate(180deg) দিয়ে ঘুরে ভেসে ওঠে — Chaty-র .chaty-cta-main /
+   .chaty-cta-close ঠিক এভাবেই কাজ করে।
+
+   এর জন্য HTML-এ .tmc-main বাটনের ভেতরে এই দুইটা wrapper থাকতে হবে
+   (না থাকলে যোগ করে নিন)। Close আইকন হিসেবে আপনার আইকন ফোল্ডারে থাকা
+   Close.svg ফাইলটাই ব্যবহার হচ্ছে — অন্য আইকনগুলোর মতোই .tmc-icon-img
+   ক্লাস দেওয়া থাকায় সাইজ/কালার স্বয়ংক্রিয়ভাবে বাকিদের সাথে মিলে যাবে,
+   আলাদা করে কিছু বদলাতে হবে না:
+
+   <button class="tmc-main">
+     <span class="tmc-main-icon-default">
+       <img class="tmc-icon-img" src="../icons/chat-icon.svg" alt="">
+     </span>
+     <span class="tmc-main-icon-close">
+       <img class="tmc-icon-img" src="../icons/Close.svg" alt="">
+     </span>
+   </button>
+
+   (উপরের src পাথ দুটো শুধু উদাহরণ — আপনার বাকি আইকনগুলোর জন্য যে ফোল্ডার
+   পাথ ব্যবহার করছেন, ঠিক সেই একই পাথ প্যাটার্নে বসিয়ে দিন।)
+   ========================================================= */
+.tmc-main-icon-default,
+.tmc-main-icon-close {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--tmc-spin-duration) ease,
+    transform var(--tmc-spin-duration) ease,
+    visibility 0s linear var(--tmc-spin-duration);
+}
+
+/* Closed: default icon is visible; close icon is hidden */
+.tmc-main-icon-default {
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(0deg);
+  transition: opacity var(--tmc-spin-duration) ease,
+    transform var(--tmc-spin-duration) ease,
+    visibility 0s linear 0s;
+}
+
+.tmc-main-icon-close {
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(var(--tmc-icon-in-rotate));
+  transition: opacity var(--tmc-spin-duration) ease,
+    transform var(--tmc-spin-duration) ease,
+    visibility 0s linear var(--tmc-spin-duration);
+}
+
+/* Opening: default spins out; close icon spins in */
+.tmc-launcher.tmc-open .tmc-main-icon-default {
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(var(--tmc-icon-out-rotate));
+  transition: opacity var(--tmc-spin-duration) ease,
+    transform var(--tmc-spin-duration) ease,
+    visibility 0s linear var(--tmc-spin-duration);
+}
+
+.tmc-launcher.tmc-open .tmc-main-icon-close {
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(0deg);
+  transition: opacity var(--tmc-spin-duration) ease,
+    transform var(--tmc-spin-duration) ease,
+    visibility 0s linear 0s;
+}
+
+.tmc-items {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--tmc-gap);
+  align-items: flex-end;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear calc(var(--tmc-item-duration) + 3 * var(--tmc-item-stagger));
+}
+
+.tmc-pos-left .tmc-items {
+  align-items: flex-start
+}
+
+.tmc-launcher.tmc-open .tmc-items {
+  visibility: visible;
+  pointer-events: auto;
+  transition: visibility 0s linear 0s
+}
+
+/* Chaty-র মতো: প্রতিটা বাটন Main বাটনের জায়গা (bottom:0) থেকে নিজের চূড়ান্ত
+   অবস্থানে উঠে আসে opacity 0→1 সহ — কোনো blur/scale নেই, শুধু position+opacity */
+.tmc-item {
+  --tmc-item-index: 1;
+  /* nth-child অনুযায়ী রিসেট হয় — Main থেকে কততম ধাপ দূরে */
+  width: var(--tmc-button-size-desktop) !important;
+  min-width: var(--tmc-button-size-desktop) !important;
+  height: var(--tmc-button-size-desktop) !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  opacity: 0;
+  transform: translateY(calc(var(--tmc-item-index) * (var(--tmc-button-size-desktop) + var(--tmc-gap))));
+  transition: opacity var(--tmc-item-duration) ease,
+    transform var(--tmc-item-duration) ease;
+}
+
+.tmc-launcher.tmc-open .tmc-items .tmc-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Main বাটনের সবচেয়ে কাছেরটা (প্রথম DOM child) সবার আগে খুলবে, দূরেরটা সবার পরে — একটার পর একটা ধীরে ধীরে */
+.tmc-items .tmc-item:nth-child(1) {
+  --tmc-item-index: 1;
+  transition-delay: var(--tmc-item-stagger)
+}
+
+.tmc-items .tmc-item:nth-child(2) {
+  --tmc-item-index: 2;
+  transition-delay: var(--tmc-item-stagger)
+}
+
+.tmc-items .tmc-item:nth-child(3) {
+  --tmc-item-index: 3;
+  transition-delay: var(--tmc-item-stagger)
+}
+
+.tmc-launcher.tmc-open .tmc-items .tmc-item:nth-child(1) {
+  transition-delay: var(--tmc-item-stagger)
+}
+
+.tmc-launcher.tmc-open .tmc-items .tmc-item:nth-child(2) {
+  transition-delay: var(--tmc-item-stagger)
+}
+
+.tmc-launcher.tmc-open .tmc-items .tmc-item:nth-child(3) {
+  transition-delay: var(--tmc-item-stagger)
+}
+
+@media(max-width:767px) {
+  .tmc-item {
+    transform: translateY(calc(var(--tmc-item-index) * (var(--tmc-button-size-mobile) + var(--tmc-gap))));
+  }
+}
+
+.tmc-item {
+  color: #fff !important;
+  font-weight: 500
+}
+
+.tmc-icon-img {
+  width: var(--tmc-icon-size-desktop) !important;
+  height: var(--tmc-icon-size-desktop) !important;
+  min-width: var(--tmc-icon-size-desktop) !important;
+  min-height: var(--tmc-icon-size-desktop) !important;
+  display: block !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important
+}
+
+.tmc-whatsapp {
+  background: var(--tmc-wa-bg)
+}
+
+.tmc-messenger {
+  background: var(--tmc-ms-bg)
+}
+
+.tmc-call {
+  background: var(--tmc-call-bg)
+}
+
+/* মোবাইল ভিউতে বাটনের সাইজ একটু ছোট */
+@media(max-width:767px) {
+  .tmc-launcher {
+    bottom: var(--tmc-bottom-mobile)
+  }
+
+  .tmc-main,
+  .tmc-item {
+    min-width: var(--tmc-button-size-mobile);
+    height: var(--tmc-button-size-mobile);
+    padding: 0
+  }
+
+  .tmc-main {
+    width: var(--tmc-button-size-mobile) !important;
+    min-width: var(--tmc-button-size-mobile) !important;
+    height: var(--tmc-button-size-mobile) !important;
+  }
+
+  .tmc-icon-img {
+    width: var(--tmc-icon-size-mobile) !important;
+    height: var(--tmc-icon-size-mobile) !important;
+    min-width: var(--tmc-icon-size-mobile) !important;
+    min-height: var(--tmc-icon-size-mobile) !important
+  }
+
+  .tmc-item {
+    width: var(--tmc-button-size-mobile) !important;
+    min-width: var(--tmc-button-size-mobile) !important;
+    height: var(--tmc-button-size-mobile) !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+  }
+}
+
+/* --- Hover Tooltip (ডেস্কটপে মাউস নিলে ছোট লেখা দেখাবে) --- */
+.tmc-item[data-tmc-tooltip] {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.tmc-item[data-tmc-tooltip]::before {
+  content: attr(data-tmc-tooltip);
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 10px);
+  transform: translateY(-50%) translateX(4px);
+  background: #111827;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 7px 9px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+  z-index: calc(var(--tmc-z) + 2);
+}
+
+.tmc-pos-left .tmc-item[data-tmc-tooltip]::before {
+  left: calc(100% + 10px);
+  right: auto;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+.tmc-item[data-tmc-tooltip]:hover::before,
+.tmc-item[data-tmc-tooltip]:focus::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media(max-width:767px) {
+  .tmc-item[data-tmc-tooltip]::before {
+    display: none !important;
+  }
+}
+
+/* --- Main বাটনের Pulse Animation (কিছুক্ষণ পরপর হালকা আলোর ঝলক, চোখে পড়ার জন্য) --- */
+.tmc-launcher .tmc-main {
+  animation: tmc-pulse var(--tmc-animation-interval) ease-out infinite;
+  will-change: transform, box-shadow
+}
+
+@keyframes tmc-pulse {
+
+  0%,
+  72%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18)
+  }
+
+  78% {
+    transform: scale(1.035);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18), 0 0 0 10px rgba(254, 194, 37, .35)
+  }
+
+  86% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18), 0 0 0 18px rgba(254, 194, 37, 0)
+  }
+}
+
+.tmc-launcher .tmc-main:hover {
+  animation-play-state: paused
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .tmc-launcher .tmc-main {
+    animation: none !important
+  }
+
+  .tmc-main,
+  .tmc-item {
+    transition: none !important
+  }
+}
+
+/* --- Nudge Bubble (কিছুক্ষণ পরপর ভেসে ওঠা attention bubble) --- */
+.tmc-main-wrap {
+  position: relative;
+  display: inline-flex
+}
+
+.tmc-nudge {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  max-width: min(72vw, 260px);
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 9px 12px;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity .28s ease, transform .28s ease, visibility .28s ease;
+  z-index: calc(var(--tmc-z) + 3);
+  white-space: normal;
+}
+
+.tmc-nudge::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 18px;
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #111827 transparent transparent transparent;
+}
+
+.tmc-pos-left .tmc-nudge {
+  right: auto;
+  left: 0
+}
+
+.tmc-pos-left .tmc-nudge::after {
+  right: auto;
+  left: 18px
+}
+
+.tmc-nudge.tmc-nudge-show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto
+}
+
+.tmc-nudge.tmc-nudge-whatsapp {
+  background: var(--tmc-wa-bg)
+}
+
+.tmc-nudge.tmc-nudge-whatsapp::after {
+  border-top-color: var(--tmc-wa-bg)
+}
+
+.tmc-nudge.tmc-nudge-messenger {
+  background: var(--tmc-ms-bg)
+}
+
+.tmc-nudge.tmc-nudge-messenger::after {
+  border-top-color: var(--tmc-ms-bg)
+}
+
+.tmc-nudge.tmc-nudge-call {
+  background: var(--tmc-call-bg)
+}
+
+.tmc-nudge.tmc-nudge-call::after {
+  border-top-color: var(--tmc-call-bg)
+}
+
+/* --- Toast (মেসেজ কপি হলে নিচে ছোট নোটিফিকেশন) --- */
+.tmc-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 12px);
+  background: #111827;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  z-index: calc(var(--tmc-z) + 5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+  max-width: 88vw;
+  text-align: center
+}
+
+.tmc-toast-show {
+  opacity: 1;
+  transform: translate(-50%, 0)
+}
