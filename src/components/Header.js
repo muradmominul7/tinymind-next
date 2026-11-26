@@ -8,27 +8,39 @@ import ScrollHeader from "./ScrollHeader";
 import CartLink from "./CartLink";
 import SearchBox from "./SearchBox";
 import { UserIcon } from "./icons";
+import { getSiteContent, localizeLink } from "@/lib/site-content";
 
 // Wide screens: top bar (promo + language), then logo / search / cart row, then the category row.
 // Scrolling down hides the top bar only; the rest stays sticky.
 // Phones: logo row (hamburger, logo, language, cart, account) and the search row. Scrolling down hides the
 // logo row; the hamburger and a cart icon then sit beside the search bar. The category strip is not sticky
 // on phones; the hamburger opens the full category list.
-export default function Header({ lang, t }) {
+// The promo line (text, button text, link) is written by the shop owner in the Bagisto admin
+// (Configure > General > Content > Header Offer Title); without it the top bar shows only the language switch.
+export default async function Header({ lang, t }) {
   const iconButton = "rounded-full p-2 text-heading hover:bg-secondary";
   const short = t.languageShort;
+  const content = await getSiteContent(lang);
+  const offer = content?.offer;
 
   return (
     <>
       <ScrollHeader>
         <div data-hdr-top className="hidden bg-brand text-sm text-white md:block">
           <div className="mx-auto grid max-w-site grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-1.5">
-            <p className="col-start-2 text-center">
-              {t.header.promo}{" "}
-              <Link href={`/${lang}`} className="font-semibold underline">
-                {t.header.shopNow}
-              </Link>
-            </p>
+            {offer?.title && (
+              <p className="col-start-2 text-center">
+                {offer.title}
+                {offer.link_title && (
+                  <>
+                    {" "}
+                    <Link href={localizeLink(offer.link, lang)} className="font-semibold underline">
+                      {offer.link_title}
+                    </Link>
+                  </>
+                )}
+              </p>
+            )}
             <div className="col-start-3 flex justify-end">
               <Suspense fallback={null}>
                 <LocaleSwitcher lang={lang} labels={short} variant="bar" />

@@ -1,6 +1,6 @@
 // The 64 districts of Bangladesh. Codes match the "country_states" table (BD01...BD64);
 // the delivery charge in Bagisto is looked up by this code. "en" is the name stored on the order.
-// The names shown in the dropdown come from the dictionary ("districts" in bn.json / en.json).
+// The dropdown shows these English names in both languages: a district is easier to find by typing its English name.
 export const DISTRICTS = [
   { code: "BD01", en: "Bagerhat" },
   { code: "BD02", en: "Bandarban" },
@@ -72,10 +72,7 @@ export function districtByCode(code) {
   return DISTRICTS.find((d) => d.code === code) ?? null;
 }
 
-// For the dropdown: `names` is t.districts (code -> display name). Falls back to the English name.
-export function districtOptions(names, lang) {
-  const locale = lang === "bn" ? "bn" : "en";
-  return DISTRICTS.map((d) => ({ code: d.code, name: names?.[d.code] || d.en })).sort((a, b) =>
-    a.name.localeCompare(b.name, locale)
-  );
+// For the dropdown: code and English name, in alphabetical order.
+export function districtOptions() {
+  return DISTRICTS.map((d) => ({ code: d.code, name: d.en })).sort((a, b) => a.name.localeCompare(b.name, "en"));
 }

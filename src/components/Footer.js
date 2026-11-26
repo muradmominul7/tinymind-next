@@ -23,7 +23,14 @@ const columns = [
   { title: "legal", links: [["terms", "terms-conditions"], ["privacy", "privacy-policy"]] },
 ];
 
-const featureIcons = [TruckIcon, PackageIcon, DollarIcon, HeadphonesIcon];
+// The four boxes above the footer are the "Services Content" section of the Bagisto theme (admin: Appearance).
+// Each box names its icon; a box with an icon we do not know gets the package icon.
+const featureIcons = {
+  "icon-truck": TruckIcon,
+  "icon-product": PackageIcon,
+  "icon-dollar-sign": DollarIcon,
+  "icon-support": HeadphonesIcon,
+};
 
 const PHONE_HREF = "tel:09638977422";
 
@@ -36,8 +43,8 @@ export default function Footer({ lang, t }) {
   return (
     <footer className="mt-12">
       <div className="mx-auto grid max-w-site grid-cols-1 gap-6 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        {f.features.map((item, i) => {
-          const Icon = featureIcons[i];
+        {(f.features ?? []).map((item) => {
+          const Icon = featureIcons[item.icon] ?? PackageIcon;
           return (
             <div key={item.title} className="flex items-start gap-3">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-heading text-heading">
@@ -68,7 +75,7 @@ export default function Footer({ lang, t }) {
                 {col.links.map(([key, slug]) => (
                   <li key={slug}>
                     <Link href={slug.startsWith("#") ? slug : `/${lang}/${slug}`} className="opacity-90 hover:text-accent hover:opacity-100">
-                      {f.links[key]}
+                      {f.links?.[key]}
                     </Link>
                   </li>
                 ))}
@@ -95,7 +102,7 @@ export default function Footer({ lang, t }) {
         </div>
 
         <div className="border-t border-white/15 py-3 text-center text-sm opacity-90">
-          © {year} {f.brand}. {f.rights}
+          {(f.copyright ?? "").replace(":year", year)}
         </div>
       </div>
     </footer>

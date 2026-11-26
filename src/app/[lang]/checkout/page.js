@@ -47,7 +47,7 @@ export default async function CheckoutPage({ params }) {
       <CheckoutForm
         lang={lang}
         labels={t.checkout}
-        districts={districtOptions(t.districts, lang)}
+        districts={districtOptions()}
         summary={summary}
       />
     </section>
