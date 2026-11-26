@@ -56,7 +56,7 @@ const invalid = { ok: false, count: 0 };
 export async function addToCart({ productId, quantity = 1, lang }) {
   const id = toInt(productId, 1, 1_000_000_000);
   const qty = toInt(quantity, 1, 99);
-  if (!id || !qty || !isLocale(lang)) return invalid;
+  if (!id || !qty || !(await isLocale(lang))) return invalid;
 
   return withCart(lang, "/add-product-in-cart", { productId: id, quantity: qty });
 }
@@ -64,7 +64,7 @@ export async function addToCart({ productId, quantity = 1, lang }) {
 export async function updateCartItem({ itemId, quantity, lang }) {
   const id = toInt(itemId, 1, 1_000_000_000);
   const qty = toInt(quantity, 1, 99);
-  if (!id || !qty || !isLocale(lang)) return invalid;
+  if (!id || !qty || !(await isLocale(lang))) return invalid;
 
   const result = await withCart(lang, "/update-cart-item", { cartItemId: id, quantity: qty });
   revalidatePath(`/${lang}/cart`);
@@ -73,7 +73,7 @@ export async function updateCartItem({ itemId, quantity, lang }) {
 
 export async function removeCartItem({ itemId, lang }) {
   const id = toInt(itemId, 1, 1_000_000_000);
-  if (!id || !isLocale(lang)) return invalid;
+  if (!id || !(await isLocale(lang))) return invalid;
 
   const result = await withCart(lang, "/remove-cart-item", { cartItemId: id });
 

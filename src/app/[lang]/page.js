@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export default async function Home({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
   const t = await getDictionary(lang);
 
   const { items } = await bagistoList("/products?per_page=12", {

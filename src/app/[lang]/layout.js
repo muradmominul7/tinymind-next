@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FooterGate from "@/components/FooterGate";
 import CartWidget from "@/components/CartWidget";
-import { getDictionary, isLocale, locales } from "@/lib/i18n";
+import { getDictionary, getLocaleSettings, isLocale, getLocales } from "@/lib/i18n";
 import "../globals.css";
 
 // Self-hosted fonts (files live in src/fonts). Roles: Baloo 2 = headings and navigation,
@@ -34,13 +34,13 @@ const hind = localFont({
   display: "swap",
 });
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
+export async function generateStaticParams() {
+  return (await getLocales()).map((lang) => ({ lang }));
 }
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const t = await getDictionary(lang);
 
   return {
@@ -51,11 +51,13 @@ export async function generateMetadata({ params }) {
 
 export default async function RootLayout({ children, params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
   const t = await getDictionary(lang);
+  const { locales } = await getLocaleSettings();
+  const direction = locales.find((l) => l.code === lang)?.direction ?? "ltr";
 
   return (
-    <html lang={lang} className={`${baloo.variable} ${inter.variable} ${hind.variable}`}>
+    <html lang={lang} dir={direction} className={`${baloo.variable} ${inter.variable} ${hind.variable}`}>
       <body className="min-h-screen bg-page text-body antialiased">
         <Header lang={lang} t={t} />
         <main className="mx-auto w-full max-w-site px-4 py-6">{children}</main>

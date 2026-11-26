@@ -9,7 +9,7 @@ const TOKEN = process.env.BAGISTO_TRACKING_TOKEN;
 // Looks up an order by order number + phone through POST /api/tinymind/track-order on the Bagisto backend.
 // The backend decides what the customer may see, counts wrong attempts and writes the texts in the right language.
 export async function trackOrder({ lang, orderNumber, phone }) {
-  if (!isLocale(lang)) return { ok: false, reason: "failed" };
+  if (!(await isLocale(lang))) return { ok: false, reason: "failed" };
 
   const number = String(orderNumber ?? "").trim();
   const digits = String(phone ?? "").trim();

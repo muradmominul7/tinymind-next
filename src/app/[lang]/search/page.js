@@ -9,7 +9,7 @@ const PER_PAGE = 24;
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const t = await getDictionary(lang);
 
   return { title: `${t.search.title} | ${t.site.name}`, robots: { index: false } };
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
 
 export default async function SearchPage({ params, searchParams }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const t = await getDictionary(lang);
   const query = await searchParams;

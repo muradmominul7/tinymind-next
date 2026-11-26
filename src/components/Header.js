@@ -1,3 +1,4 @@
+import { getLocaleSettings } from "@/lib/i18n";
 import { getSiteContent, localizeLink } from "@/lib/site-content";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -19,7 +20,10 @@ import { UserIcon } from "./icons";
 // (Configure > General > Content > Header Offer Title); without it the top bar shows only the language switch.
 export default async function Header({ lang, t }) {
   const iconButton = "rounded-full p-2 text-heading hover:bg-secondary";
-  const short = t.languageShort;
+  const { locales } = await getLocaleSettings();
+  // Label of each language: the storefront's short label if it has one, otherwise the name from Bagisto.
+  const labels = Object.fromEntries(locales.map((l) => [l.code, l.name]));
+  const codes = locales.map((l) => l.code);
   const content = await getSiteContent(lang);
   const offer = content?.offer;
 
@@ -38,7 +42,7 @@ export default async function Header({ lang, t }) {
                   <>
                     {" "}
                     <Link
-                      href={localizeLink(offer.link, lang)}
+                      href={localizeLink(offer.link, lang, codes)}
                       className="font-semibold underline"
                     >
                       {offer.link_title}
@@ -48,9 +52,16 @@ export default async function Header({ lang, t }) {
               </p>
             )}
             <div className="col-start-3 flex justify-end">
-              <Suspense fallback={null}>
-                <LocaleSwitcher lang={lang} labels={short} variant="bar" />
-              </Suspense>
+              {codes.length > 1 && (
+                <Suspense fallback={null}>
+                  <LocaleSwitcher
+                    lang={lang}
+                    codes={codes}
+                    labels={labels}
+                    variant="bar"
+                  />
+                </Suspense>
+              )}
             </div>
           </div>
         </div>
@@ -79,15 +90,18 @@ export default async function Header({ lang, t }) {
                 />
               </Link>
 
-              <div className="md:hidden">
-                <Suspense fallback={null}>
-                  <LocaleSwitcher
-                    lang={lang}
-                    labels={short}
-                    variant="compact"
-                  />
-                </Suspense>
-              </div>
+              {codes.length > 1 && (
+                <div className="md:hidden">
+                  <Suspense fallback={null}>
+                    <LocaleSwitcher
+                      lang={lang}
+                      codes={codes}
+                      labels={labels}
+                      variant="compact"
+                    />
+                  </Suspense>
+                </div>
+              )}
 
               {/* Account comes in a later phase. */}
               <div className="flex items-center gap-1 md:order-3">

@@ -27,7 +27,8 @@ export async function getSiteContent(lang) {
 // The admin keeps links the way the old Blade shop used them ("/shop", "https://tinymind-headless.test/...").
 // This turns them into links of the Next.js storefront: "/" -> "/bn", "/shop" -> "/bn/shop",
 // a link to the backend's own address -> the same path on the storefront. Other sites stay as they are.
-export function localizeLink(link, lang) {
+// `codes` = the languages of the Bagisto channel, so a link that already starts with one is left alone.
+export function localizeLink(link, lang, codes = [lang]) {
   const value = String(link ?? "").trim();
   if (!value) return `/${lang}`;
 
@@ -45,6 +46,7 @@ export function localizeLink(link, lang) {
 
   if (!path.startsWith("/")) path = `/${path}`;
   if (path === "/") return `/${lang}`;
-  if (/^\/(bn|en)(\/|$|\?|#)/.test(path)) return path; // already has a language
+  const first = path.split(/[/?#]/)[1];
+  if (codes.includes(first)) return path; // already has a language
   return `/${lang}${path}`;
 }

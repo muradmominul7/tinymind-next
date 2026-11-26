@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const LOCALES = ["bn", "en"];
-
 function GlobeIcon() {
   return (
     <svg
@@ -25,19 +23,23 @@ function GlobeIcon() {
   );
 }
 
-// Keeps the current page and swaps only the language part of the address.
+// Keeps the current page and swaps only the language part (the first segment) of the address.
 function hrefFor(pathname, lang, code) {
-  return (pathname || `/${lang}`).replace(/^\/(bn|en)(?=\/|$)/, `/${code}`);
+  const parts = (pathname || `/${lang}`).split("/");
+  parts[1] = code;
+  return parts.join("/");
 }
 
 // variant "bar" (top bar, wide screens): both languages are shown. The current one is a white pill
 // with brand-colored text, the other one is plain white text.
-// variant "compact" (phones): only the OTHER language is shown, next to a globe icon.
-export default function LocaleSwitcher({ lang, labels, variant = "bar" }) {
+// variant "compact" (phones): only the OTHER language is shown, next to a globe icon
+// (with more than two languages, the next one in the list).
+// `codes` = the languages of the Bagisto channel, `labels` = text to show for each code.
+export default function LocaleSwitcher({ lang, codes, labels, variant = "bar" }) {
   const pathname = usePathname();
 
   if (variant === "compact") {
-    const other = lang === "bn" ? "en" : "bn";
+    const other = codes[(codes.indexOf(lang) + 1) % codes.length];
 
     return (
       <Link
@@ -53,7 +55,7 @@ export default function LocaleSwitcher({ lang, labels, variant = "bar" }) {
 
   return (
     <div className="flex items-center gap-1 text-xs font-semibold">
-      {LOCALES.map((code) =>
+      {codes.map((code) =>
         code === lang ? (
           <span key={code} aria-current="true" className="rounded-full bg-white px-3 py-0.5 text-brand">
             {labels[code]}

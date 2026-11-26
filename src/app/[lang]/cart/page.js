@@ -7,7 +7,7 @@ import { formatPrice } from "@/lib/product";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const t = await getDictionary(lang);
 
   return { title: `${t.cart.title} | ${t.site.name}` };
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CartPage({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const t = await getDictionary(lang);
   const cart = await readCart(lang);

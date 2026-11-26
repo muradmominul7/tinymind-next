@@ -1,11 +1,11 @@
 import { bagistoList } from "./bagisto";
+import { getLocales } from "./i18n";
 
 const MAX_LIST_PAGES = 6; // how many list pages are searched at most (the API lists 10 CMS pages per page)
 
-// First address segments that belong to the app itself. A link such as "/cart" in a CMS page stays as it is.
+// First address segments that belong to the app itself (the language codes of the channel count as well).
+// A link such as "/cart" in a CMS page stays as it is.
 const APP_ROUTES = new Set([
-  "bn",
-  "en",
   "api",
   "cart",
   "category",
@@ -24,21 +24,22 @@ const APP_ROUTES = new Set([
 const OLD_SITE = "(?:https?:\\/\\/(?:www\\.)?(?:tinymind-2\\.5\\.0\\.test|tinymind-headless\\.test|tinymind\\.com\\.bd))?";
 const LINK = new RegExp(`href="${OLD_SITE}\\/(?:page\\/)?([a-z0-9-]+)\\/?"`, "gi");
 
-function fixLinks(html, lang) {
+function fixLinks(html, lang, codes) {
   return html.replace(LINK, (match, key) =>
-    APP_ROUTES.has(key.toLowerCase()) ? match : `href="/${lang}/${key}"`
+    APP_ROUTES.has(key.toLowerCase()) || codes.includes(key) ? match : `href="/${lang}/${key}"`
   );
 }
 
 // The content comes from the admin panel, so it is trusted; scripts are removed anyway.
-function cleanHtml(html, lang) {
-  return fixLinks(String(html ?? "").replace(/<script\b[\s\S]*?<\/script>/gi, ""), lang);
+function cleanHtml(html, lang, codes) {
+  return fixLinks(String(html ?? "").replace(/<script\b[\s\S]*?<\/script>/gi, ""), lang, codes);
 }
 
 // Finds one CMS page by its url key (for example "terms-conditions") in the given language.
 export async function getPage(urlKey, lang) {
   if (!/^[a-z0-9-]{1,80}$/.test(urlKey)) return null;
 
+  const codes = await getLocales();
   let previousFirst = null;
 
   for (let page = 1; page <= MAX_LIST_PAGES; page += 1) {
@@ -52,7 +53,7 @@ export async function getPage(urlKey, lang) {
       const t = found.translation;
       return {
         title: t.pageTitle ?? "",
-        html: cleanHtml(t.htmlContent, lang),
+        html: cleanHtml(t.htmlContent, lang, codes),
         metaTitle: t.metaTitle ?? "",
         metaDescription: t.metaDescription ?? "",
       };

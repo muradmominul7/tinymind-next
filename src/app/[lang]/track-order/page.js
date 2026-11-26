@@ -4,7 +4,7 @@ import { getDictionary, isLocale } from "@/lib/i18n";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const t = await getDictionary(lang);
 
   return { title: `${t.track.title} | ${t.site.name}`, robots: { index: false } };
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
 
 export default async function TrackOrderPage({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const t = await getDictionary(lang);
   const c = t.track;

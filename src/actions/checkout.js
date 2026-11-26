@@ -51,7 +51,7 @@ function placeFields(district) {
 // It saves a throw-away address on the cart; the real one replaces it when the order is placed.
 export async function quoteDelivery({ lang, district }) {
   const token = (await cookies()).get(TOKEN_COOKIE)?.value;
-  if (!isLocale(lang) || !token) return { ok: false };
+  if (!(await isLocale(lang)) || !token) return { ok: false };
   if (district && !districtByCode(district)) return { ok: false };
 
   try {
@@ -76,7 +76,7 @@ export async function quoteDelivery({ lang, district }) {
 }
 
 export async function placeOrder({ lang, name, phone, district, address }) {
-  if (!isLocale(lang)) return { ok: false, reason: "failed" };
+  if (!(await isLocale(lang))) return { ok: false, reason: "failed" };
   if (district && !districtByCode(district))
     return { ok: false, reason: "failed" };
 

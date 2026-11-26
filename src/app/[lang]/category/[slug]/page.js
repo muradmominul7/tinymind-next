@@ -25,7 +25,7 @@ function parseId(slug) {
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
   const id = parseId(slug);
-  if (!isLocale(lang) || !id) return {};
+  if (!(await isLocale(lang)) || !id) return {};
 
   const [category, t] = await Promise.all([getCategory(id, lang), getDictionary(lang)]);
   const name = category?.translation?.name;
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params, searchParams }) {
   const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const id = parseId(slug);
   if (!id) notFound();

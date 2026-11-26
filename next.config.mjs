@@ -4,9 +4,8 @@ const nextConfig = {
   // dynamic URLs (category/product pages). Can be revisited later.
   cacheComponents: false,
 
-  async redirects() {
-    return [{ source: "/", destination: "/en", permanent: false }];
-  },
+  // "/" is handled by src/app/page.js, which sends the visitor to the default language
+  // of the Bagisto channel. (It used to be a fixed redirect to /en here.)
 };
 
 export default nextConfig;

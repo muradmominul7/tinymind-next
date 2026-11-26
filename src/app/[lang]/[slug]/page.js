@@ -4,7 +4,7 @@ import { getPage } from "@/lib/pages";
 
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
 
   const page = await getPage(slug, lang);
   if (!page) return {};
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
 // have their own folders and win over this one.
 export default async function CmsPage({ params }) {
   const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const page = await getPage(slug, lang);
   if (!page) notFound();

@@ -7,7 +7,7 @@ import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const t = await getDictionary(lang);
 
   return {
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CheckoutPage({ params }) {
   const { lang } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const cart = await readCart(lang);
   const lines = cart?.items ?? [];

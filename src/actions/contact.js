@@ -7,7 +7,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Sends the contact form to the Bagisto API (POST /api/shop/contact-us). Bagisto then mails it to the shop.
 export async function sendContact({ lang, name, email, phone, message, website }) {
-  if (!isLocale(lang)) return { ok: false, reason: "failed" };
+  if (!(await isLocale(lang))) return { ok: false, reason: "failed" };
 
   // "website" is a hidden field that only bots fill in. They are told it worked, nothing is sent.
   if (website) return { ok: true };

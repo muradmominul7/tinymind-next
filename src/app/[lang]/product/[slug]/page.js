@@ -30,7 +30,7 @@ async function getProduct(id, lang) {
 
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
-  if (!isLocale(lang)) return {};
+  if (!(await isLocale(lang))) return {};
   const id = parseProductId(slug);
   if (!id) return {};
 
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductPage({ params }) {
   const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  if (!(await isLocale(lang))) notFound();
 
   const id = parseProductId(slug);
   if (!id) notFound();

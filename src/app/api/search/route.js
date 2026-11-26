@@ -8,7 +8,7 @@ export async function GET(request) {
   const q = (searchParams.get("q") ?? "").trim().slice(0, 100);
   const lang = searchParams.get("lang");
 
-  if (q.length < 2 || !isLocale(lang)) return NextResponse.json({ items: [] });
+  if (q.length < 2 || !(await isLocale(lang))) return NextResponse.json({ items: [] });
 
   try {
     const { items } = await bagistoList(`/products?query=${encodeURIComponent(q)}&per_page=6`, {

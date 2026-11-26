@@ -101,7 +101,7 @@ export default function CartWidget({ lang, labels }) {
 
   const close = () => setOpen(false);
   const shownCount = number.format(count);
-  const hidePill = /^\/(bn|en)\/(cart|checkout)(\/|$)/.test(pathname || "");
+  const hidePill = /^\/[^/]+\/(cart|checkout)(\/|$)/.test(pathname || "");
   const step =
     "px-3 py-1.5 text-lg leading-none text-brand disabled:opacity-40";
 
