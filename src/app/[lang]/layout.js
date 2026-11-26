@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FooterGate from "@/components/FooterGate";
+import CartWidget from "@/components/CartWidget";
 import { getDictionary, isLocale, locales } from "@/lib/i18n";
 import "../globals.css";
 
@@ -61,6 +62,24 @@ export default async function RootLayout({ children, params }) {
         <FooterGate>
           <Footer lang={lang} t={t} />
         </FooterGate>
+        <CartWidget
+          lang={lang}
+          labels={{
+            cart: t.header.cart,
+            title: t.cart.drawerTitle,
+            close: t.cart.close,
+            items: t.cart.items,
+            empty: t.cart.empty,
+            continue: t.cart.continue,
+            total: t.cart.total,
+            checkout: t.cart.checkout,
+            viewCart: t.cart.viewCart,
+            quantity: t.cart.quantity,
+            decrease: t.cart.decrease,
+            increase: t.cart.increase,
+            remove: t.cart.remove,
+          }}
+        />
       </body>
     </html>
   );

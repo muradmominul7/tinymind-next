@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BagIcon } from "./icons";
 import { CART_EVENT } from "@/lib/cart-events";
+import { openCartDrawer } from "@/lib/cart-drawer-events";
 
 // Header cart icon with the number of items. Reads the plain "cart_count" cookie, then follows cart events.
+// A normal click opens the cart drawer; ctrl/cmd/middle click (or no JavaScript) still goes to the cart page.
 export default function CartLink({ lang, label }) {
   const [count, setCount] = useState(0);
 
@@ -18,11 +20,19 @@ export default function CartLink({ lang, label }) {
     return () => window.removeEventListener(CART_EVENT, onChange);
   }, []);
 
+  function onClick(event) {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    openCartDrawer();
+  }
+
   const shown = new Intl.NumberFormat(lang === "bn" ? "bn-BD" : "en-US").format(count);
 
   return (
     <Link
       href={`/${lang}/cart`}
+      onClick={onClick}
       aria-label={`${label}: ${shown}`}
       className="relative rounded-full p-2 text-heading hover:bg-secondary"
     >

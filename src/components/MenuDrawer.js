@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MENU_STATE, MENU_TOGGLE } from "@/lib/menu-events";
 
 // Phone menu panel. It opens right under the header (the header stays visible), with the Sign in and
-// Sign up buttons first and then every category.
+// Sign up buttons first and then every category. It slides in from the left edge and slides back out to it.
 export default function MenuDrawer({ lang, labels, items }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -58,7 +58,7 @@ export default function MenuDrawer({ lang, labels, items }) {
         inert={!open}
         style={{ top }}
         className={`fixed inset-x-0 bottom-0 z-30 overflow-y-auto bg-page transition duration-300 ease-out ${
-          open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
+          open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="px-4 pb-8 pt-4">
