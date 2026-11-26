@@ -3,6 +3,7 @@ import ContactWidget from "@/components/ContactWidget";
 import Footer from "@/components/Footer";
 import FooterGate from "@/components/FooterGate";
 import Header from "@/components/Header";
+import SocialProof from "@/components/SocialProof";
 import { getContactWidget } from "@/lib/contact-widget";
 import {
   getDictionary,
@@ -10,6 +11,7 @@ import {
   getLocaleSettings,
   isLocale,
 } from "@/lib/i18n";
+import { getSocialProofTexts } from "@/lib/social-proof";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import "../globals.css";
@@ -78,6 +80,7 @@ export default async function RootLayout({ children, params }) {
   const t = await getDictionary(lang);
   const { locales } = await getLocaleSettings();
   const contact = await getContactWidget(lang);
+  const socialProof = await getSocialProofTexts(lang);
   const direction = locales.find((l) => l.code === lang)?.direction ?? "ltr";
 
   return (
@@ -111,6 +114,7 @@ export default async function RootLayout({ children, params }) {
           }}
         />
         {contact && <ContactWidget config={contact} />}
+        <SocialProof lang={lang} labels={socialProof} />
       </body>
     </html>
   );
