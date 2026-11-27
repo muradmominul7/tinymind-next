@@ -2,6 +2,7 @@ import { getLocaleSettings } from "@/lib/i18n";
 import { getSiteContent, localizeLink } from "@/lib/site-content";
 import Link from "next/link";
 import { Suspense } from "react";
+import AccountLink from "./AccountLink";
 import CartLink from "./CartLink";
 import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
@@ -9,7 +10,6 @@ import MenuButton from "./MenuButton";
 import MobileMenu from "./MobileMenu";
 import ScrollHeader from "./ScrollHeader";
 import SearchBox from "./SearchBox";
-import { UserIcon } from "./icons";
 
 // Wide screens: top bar (promo + language), then logo / search / cart row, then the category row.
 // Scrolling down hides the top bar only; the rest stays sticky.
@@ -103,16 +103,9 @@ export default async function Header({ lang, t }) {
                 </div>
               )}
 
-              {/* Account comes in a later phase. */}
               <div className="flex items-center gap-1 md:order-3">
                 <CartLink lang={lang} label={t.header.cart} />
-                <button
-                  type="button"
-                  aria-label={t.header.account}
-                  className={iconButton}
-                >
-                  <UserIcon />
-                </button>
+                <AccountLink lang={lang} label={t.header.account} className={iconButton} />
               </div>
             </div>
 

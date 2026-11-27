@@ -1,0 +1,98 @@
+{
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Sign in to your account",
+    "identifier": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "wait": "Please wait...",
+    "noAccount": "No account yet?",
+    "registerLink": "Sign up",
+    "registered": "Your account is ready. Please sign in.",
+    "forgot": "Forgot password?",
+    "resetDone": "Your password was changed. Sign in with the new password."
+  },
+  "register": {
+    "title": "Sign up",
+    "subtitle": "Create a new account",
+    "name": "Your name",
+    "phone": "Mobile number",
+    "email": "Email",
+    "password": "Password (at least 6 characters)",
+    "confirm": "Confirm password",
+    "submit": "Sign up",
+    "wait": "Please wait...",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Sign in"
+  },
+  "account": {
+    "title": "My account",
+    "profile": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Mobile number",
+    "orders": "My orders",
+    "noOrders": "No orders yet.",
+    "ordersFailed": "The order list cannot be loaded right now.",
+    "profileFailed": "Your profile cannot be loaded right now.",
+    "order": "Order",
+    "logout": "Log out",
+    "statuses": {
+      "pending": "Pending",
+      "pending_payment": "Awaiting payment",
+      "processing": "Processing",
+      "completed": "Completed",
+      "canceled": "Canceled",
+      "closed": "Closed",
+      "fraud": "Canceled"
+    },
+    "emailTitle": "Email",
+    "addEmailNotice": "Your account has no email. Add one so you can reset your password.",
+    "changeEmail": "Change email",
+    "addEmail": "Add email",
+    "newEmail": "New email",
+    "currentPassword": "Current password",
+    "save": "Save",
+    "wait": "Please wait...",
+    "emailUpdated": "Your email was saved."
+  },
+  "errors": {
+    "required": "Please fill in every field.",
+    "identifier": "Enter a valid email.",
+    "invalidLogin": "The email/mobile number or the password is not correct.",
+    "name": "Please enter your name.",
+    "phone": "Enter a valid mobile number (for example 01712345678).",
+    "email": "Enter a valid email.",
+    "passwordShort": "The password must have at least 6 characters.",
+    "passwordMismatch": "The two passwords do not match.",
+    "registerInvalid": "The account could not be created. An account may already exist with this email or mobile number.",
+    "server": "This cannot be done right now. Please try again in a moment.",
+    "resetFailed": "This link is not valid or has expired. Please ask for a new reset link.",
+    "emailRequired": "Enter a valid email.",
+    "invalidPassword": "The current password is not correct.",
+    "emailTaken": "The email could not be saved. An account may already exist with this email."
+  },
+  "common": {
+    "show": "Show password",
+    "hide": "Hide password"
+  },
+  "forgot": {
+    "title": "Reset password",
+    "subtitle": "Enter the email of your account and we will send a reset link.",
+    "email": "Email",
+    "submit": "Send reset link",
+    "wait": "Please wait...",
+    "sent": "If we have this email, a reset link has been sent. Check your inbox and spam folder.",
+    "back": "Back to sign in"
+  },
+  "reset": {
+    "title": "New password",
+    "subtitle": "Choose a new password for your account.",
+    "password": "New password (at least 6 characters)",
+    "confirm": "Confirm password",
+    "submit": "Change password",
+    "wait": "Please wait...",
+    "invalidLink": "This link is not valid or has expired. Please ask for a new reset link.",
+    "again": "Ask for a new link"
+  }
+}
