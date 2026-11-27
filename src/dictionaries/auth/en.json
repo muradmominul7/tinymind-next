@@ -94,5 +94,23 @@
     "wait": "Please wait...",
     "invalidLink": "This link is not valid or has expired. Please ask for a new reset link.",
     "again": "Ask for a new link"
+  },
+  "social": {
+    "or": "or",
+    "line": "Sign up / sign in with social media.",
+    "google": "Sign in with Google",
+    "facebook": "Sign in with Facebook",
+    "wait": "Please wait...",
+    "preview": "Not switched on yet",
+    "notReady": "Facebook is not ready yet. Please try again in a moment.",
+    "errors": {
+      "SOCIAL_EMAIL_REQUIRED": "This account has no email, so it cannot be used to sign in. Sign up with an email instead.",
+      "PROVIDER_DISABLED": "Signing in this way is switched off right now.",
+      "PROVIDER_NOT_SUPPORTED": "Signing in this way is not possible.",
+      "ACCOUNT_INACTIVE": "Your account is not active. Please contact us.",
+      "SOCIAL_TOKEN_INVALID": "The sign in could not be checked. Please try again.",
+      "SOCIAL_TOKEN_AUDIENCE": "The sign in could not be checked. Please try again.",
+      "SOCIAL_TOKEN_REQUIRED": "The sign in could not be checked. Please try again."
+    }
   }
 }

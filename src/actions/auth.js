@@ -248,3 +248,41 @@ export async function changeEmailAction(_previous, formData) {
   setCustomerCookies(await cookies(), freshToken);
   redirect(`/${lang}/account?email=updated`);
 }
+
+// Signs in with Google or Facebook. The browser got a token from the provider; Bagisto checks it with the
+// provider (Google: an ID token, Facebook: an access token), finds the customer by the provider's id or by the
+// email, creates one if there is none, and answers with the customer token like a normal sign in.
+export async function socialLoginAction(lang, provider, token) {
+  const safeLang = (await isLocale(lang)) ? lang : null;
+  const t = await getAuthTexts(safeLang ?? "en");
+
+  if (!safeLang || !["google", "facebook"].includes(provider) || typeof token !== "string" || !token) {
+    return { error: t.errors.server };
+  }
+
+  let answer;
+  try {
+    answer = await customerApi("/customers/social-login", {
+      method: "POST",
+      body: provider === "google" ? { provider, idToken: token } : { provider, accessToken: token },
+      locale: safeLang,
+    });
+  } catch (error) {
+    console.error("social sign in failed", error.status ?? "", error.message, error.detail ?? "");
+    return { error: t.errors.server };
+  }
+
+  if (answer?.success === false) {
+    console.error("social sign in refused:", answer.code ?? "no code");
+    return { error: t.social.errors[answer.code] ?? t.errors.server };
+  }
+
+  const customerToken = pickToken(answer);
+  if (!customerToken) {
+    console.error("social sign in: no token in the answer. Fields in the answer:", Object.keys(answer ?? {}));
+    return { error: t.errors.server };
+  }
+
+  setCustomerCookies(await cookies(), customerToken);
+  redirect(`/${safeLang}/account`);
+}

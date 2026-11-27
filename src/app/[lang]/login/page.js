@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import SocialLoginButtons from "@/components/SocialLoginButtons";
 import LoginForm from "@/components/LoginForm";
 import { getAuthTexts } from "@/lib/auth-texts";
 import { getCustomerToken } from "@/lib/customer";
 import { isLocale } from "@/lib/i18n";
+import { getSocialProviders } from "@/lib/social-login";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
@@ -20,7 +22,8 @@ export default async function LoginPage({ params, searchParams }) {
   if (await getCustomerToken()) redirect(`/${lang}/account`);
 
   const { registered, reset } = await searchParams;
-  const { login, common } = await getAuthTexts(lang);
+  const { login, common, social } = await getAuthTexts(lang);
+  const providers = await getSocialProviders();
 
   return (
     <div className="mx-auto w-full max-w-md rounded-2xl border border-subtle bg-white p-6 shadow-sm">
@@ -36,6 +39,8 @@ export default async function LoginPage({ params, searchParams }) {
       )}
 
       <LoginForm lang={lang} labels={login} common={common} />
+
+      <SocialLoginButtons lang={lang} providers={providers} labels={social} />
 
       <p className="mt-5 text-center text-sm text-body">
         {login.noAccount}{" "}
