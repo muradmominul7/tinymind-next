@@ -16,6 +16,7 @@ import {
   splitName,
   validateCheckout,
 } from "@/lib/checkout";
+import { linkOrderToCustomer } from "@/lib/customer";
 import { districtByCode } from "@/lib/districts";
 import { isLocale } from "@/lib/i18n";
 import { cookies } from "next/headers";
@@ -138,6 +139,9 @@ export async function placeOrder({ lang, name, phone, district, address }) {
       maxAge: COOKIE_MAX_AGE,
       httpOnly: false,
     });
+
+    // A signed-in customer: attach the order to the account (a guest order is left as it is).
+    await linkOrderToCustomer(order?.orderId ?? order?.id);
 
     const orderNo = order?.incrementId ?? null;
 

@@ -1,8 +1,9 @@
+import { getAccountMenuTexts } from "@/lib/auth-texts";
 import { getLocaleSettings } from "@/lib/i18n";
 import { getSiteContent, localizeLink } from "@/lib/site-content";
 import Link from "next/link";
 import { Suspense } from "react";
-import AccountLink from "./AccountLink";
+import AccountMenu from "./AccountMenu";
 import CartLink from "./CartLink";
 import CategoryNav from "./CategoryNav";
 import LocaleSwitcher from "./LocaleSwitcher";
@@ -24,6 +25,7 @@ export default async function Header({ lang, t }) {
   // Label of each language: the storefront's short label if it has one, otherwise the name from Bagisto.
   const labels = Object.fromEntries(locales.map((l) => [l.code, l.name]));
   const codes = locales.map((l) => l.code);
+  const menu = await getAccountMenuTexts(lang);
   const content = await getSiteContent(lang);
   const offer = content?.offer;
 
@@ -105,7 +107,7 @@ export default async function Header({ lang, t }) {
 
               <div className="flex items-center gap-1 md:order-3">
                 <CartLink lang={lang} label={t.header.cart} />
-                <AccountLink lang={lang} label={t.header.account} className={iconButton} />
+                <AccountMenu lang={lang} label={t.header.account} className={iconButton} labels={menu} />
               </div>
             </div>
 
@@ -153,6 +155,10 @@ export default async function Header({ lang, t }) {
           labels={{
             signIn: t.header.signIn,
             signUp: t.header.signUp,
+            account: menu.profile,
+            orders: menu.orders,
+            wishlist: menu.wishlist,
+            logout: menu.logout,
             title: t.header.menu,
             close: t.header.menuClose,
           }}

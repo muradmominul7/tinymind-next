@@ -112,5 +112,16 @@
       "SOCIAL_TOKEN_AUDIENCE": "The sign in could not be checked. Please try again.",
       "SOCIAL_TOKEN_REQUIRED": "The sign in could not be checked. Please try again."
     }
+  },
+  "menu": {
+    "welcome": "Welcome",
+    "welcomeGuest": "Welcome Guest",
+    "manage": "Manage Cart, Orders & Wishlist",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "profile": "Profile",
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "logout": "Logout"
   }
 }

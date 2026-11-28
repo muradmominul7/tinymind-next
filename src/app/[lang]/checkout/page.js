@@ -1,6 +1,7 @@
 import CheckoutForm from "@/components/CheckoutForm";
 import { cartImage, readCart } from "@/lib/cart";
-import { districtOptions } from "@/lib/districts";
+import { getCheckoutDefaults } from "@/lib/customer";
+import { districtByCode, districtOptions } from "@/lib/districts";
 import { getDictionary, isLocale } from "@/lib/i18n";
 import { formatPrice } from "@/lib/product";
 import { notFound, redirect } from "next/navigation";
@@ -23,6 +24,10 @@ export default async function CheckoutPage({ params }) {
   const cart = await readCart(lang);
   const lines = cart?.items ?? [];
   if (!lines.length) redirect(`/${lang}/cart`);
+
+  // A signed-in customer gets the form filled in; a guest gets an empty form.
+  const initial = await getCheckoutDefaults(lang);
+  if (initial && !districtByCode(initial.district)) initial.district = "";
 
   const t = await getDictionary(lang);
   const number = new Intl.NumberFormat(lang === "bn" ? "bn-BD" : "en-US");
@@ -49,6 +54,7 @@ export default async function CheckoutPage({ params }) {
         labels={t.checkout}
         districts={districtOptions()}
         summary={summary}
+        initial={initial}
       />
     </section>
   );

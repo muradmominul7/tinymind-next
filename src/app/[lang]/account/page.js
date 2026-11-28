@@ -114,7 +114,7 @@ export default async function AccountPage({ params, searchParams }) {
         </section>
       )}
 
-      <section className="rounded-2xl border border-subtle bg-white p-5 shadow-sm">
+      <section id="orders" className="scroll-mt-32 rounded-2xl border border-subtle bg-white p-5 shadow-sm">
         <h2 className="mb-3 text-lg font-semibold text-heading">{account.orders}</h2>
 
         {orders === null ? (

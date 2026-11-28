@@ -97,3 +97,84 @@ export async function tinymindPost(path, body) {
 
   return res.json().catch(() => ({}));
 }
+
+// Attaches an order that was just placed to the signed-in customer, so it shows in "My orders".
+// The checkout works with the cart token, so the order starts as a guest order; tinymind-headless
+// (POST /api/tinymind/link-order) turns it into the customer's order. Needs ORDER_LINK_TOKEN (same value in
+// tinymind-headless/.env). Never throws and never blocks the order: a refusal only means a guest order.
+export async function linkOrderToCustomer(orderId) {
+  const customerToken = await getCustomerToken();
+  const secret = process.env.ORDER_LINK_TOKEN;
+  const base = process.env.BAGISTO_URL;
+  const id = Number(orderId);
+
+  if (!customerToken) return false; // a guest: nothing to attach
+  if (!secret || !base || !Number.isInteger(id) || id < 1) {
+    console.error("link order skipped: ORDER_LINK_TOKEN, BAGISTO_URL or the order id is missing");
+    return false;
+  }
+
+  try {
+    const res = await fetch(`${base}/api/tinymind/link-order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${secret}` },
+      body: JSON.stringify({ orderId: id, customerToken }),
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      console.error("link order refused", res.status);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("link order failed", error.message);
+    return false;
+  }
+}
+
+// What the checkout form starts with for a signed-in customer: name and mobile number from the profile,
+// district and address from the delivery place of the customer's latest order (tinymind-headless
+// POST /api/tinymind/checkout-defaults). Missing parts stay empty. Never throws: the checkout must always open.
+export async function getCheckoutDefaults(lang) {
+  const token = await getCustomerToken();
+  if (!token) return null;
+
+  const base = process.env.BAGISTO_URL;
+  const secret = process.env.ORDER_LINK_TOKEN;
+
+  const profileCall = customerApi("/customer-profile", { token, locale: lang })
+    .then(firstItem)
+    .catch((error) => {
+      console.error("checkout defaults: profile failed", error.status ?? "", error.message);
+      return null;
+    });
+
+  const placeCall =
+    base && secret
+      ? fetch(`${base}/api/tinymind/checkout-defaults`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${secret}` },
+          body: JSON.stringify({ customerToken: token }),
+          cache: "no-store",
+        })
+          .then((res) => (res.ok ? res.json() : null))
+          .catch((error) => {
+            console.error("checkout defaults: latest order place failed", error.message);
+            return null;
+          })
+      : Promise.resolve(null);
+
+  const [profile, place] = await Promise.all([profileCall, placeCall]);
+
+  const name = [profile?.firstName ?? profile?.first_name, profile?.lastName ?? profile?.last_name]
+    .filter((part) => part && part !== "-")
+    .join(" ");
+
+  return {
+    name,
+    phone: String(profile?.phone ?? ""),
+    district: String(place?.district ?? ""),
+    address: String(place?.address ?? ""),
+  };
+}

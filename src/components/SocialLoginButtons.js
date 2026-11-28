@@ -6,6 +6,11 @@ import { useEffect, useRef, useState, useTransition } from "react";
 const round =
   "flex h-10 w-10 items-center justify-center rounded-full border border-subtle bg-white disabled:cursor-not-allowed disabled:opacity-50";
 
+// Google wants initialize() called once per page, however often the buttons appear (changing pages in the
+// app, development reloads). So the client id it was started with and who receives the token are kept here.
+let googleReadyFor = null;
+let googleReceiver = null;
+
 function GoogleG() {
   return (
     <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
@@ -57,10 +62,15 @@ export default function SocialLoginButtons({ lang, providers, labels }) {
     const start = () => {
       if (cancelled || !window.google?.accounts?.id || !googleRef.current) return;
 
-      window.google.accounts.id.initialize({
-        client_id: google.id,
-        callback: (response) => response?.credential && submitRef.current("google", response.credential),
-      });
+      googleReceiver = (token) => submitRef.current("google", token);
+
+      if (googleReadyFor !== google.id) {
+        window.google.accounts.id.initialize({
+          client_id: google.id,
+          callback: (response) => response?.credential && googleReceiver?.(response.credential),
+        });
+        googleReadyFor = google.id;
+      }
       googleRef.current.innerHTML = "";
       window.google.accounts.id.renderButton(googleRef.current, {
         type: "icon",

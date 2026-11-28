@@ -3,20 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { logoutAction } from "@/actions/auth";
 import { MENU_STATE, MENU_TOGGLE } from "@/lib/menu-events";
 
 // Phone menu panel. It opens right under the header (the header stays visible), with the Sign in and
-// Sign up buttons first and then every category. It slides in from the left edge and slides back out to it.
+// Sign up buttons first (My account and Log out when someone is signed in) and then every category. It slides in from the left edge and slides back out to it.
 export default function MenuDrawer({ lang, labels, items }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState(0); // where the header ends, in px from the top of the screen
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     const onToggle = () => setOpen((value) => !value);
     window.addEventListener(MENU_TOGGLE, onToggle);
     return () => window.removeEventListener(MENU_TOGGLE, onToggle);
   }, []);
+
+  // Whether someone is signed in comes from the plain "customer_session" cookie (see lib/customer.js).
+  useEffect(() => {
+    setSignedIn(/(?:^|; )customer_session=1/.test(document.cookie));
+  }, [pathname, open]);
 
   // Moving to another page closes the menu.
   useEffect(() => {
@@ -62,20 +69,51 @@ export default function MenuDrawer({ lang, labels, items }) {
         }`}
       >
         <div className="px-4 pb-8 pt-4">
-          <div className="grid grid-cols-2 gap-3">
-            <Link
-              href={`/${lang}/login`}
-              className="rounded-lg bg-brand px-4 py-2.5 text-center font-semibold text-white hover:bg-brand-alt"
-            >
-              {labels.signIn}
-            </Link>
-            <Link
-              href={`/${lang}/register`}
-              className="rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
-            >
-              {labels.signUp}
-            </Link>
-          </div>
+          {signedIn ? (
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href={`/${lang}/account`}
+                className="rounded-lg bg-brand px-4 py-2.5 text-center font-semibold text-white hover:bg-brand-alt"
+              >
+                {labels.account}
+              </Link>
+              <Link
+                href={`/${lang}/account#orders`}
+                className="rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
+              >
+                {labels.orders}
+              </Link>
+              <Link
+                href={`/${lang}/wishlist`}
+                className="rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
+              >
+                {labels.wishlist}
+              </Link>
+              <form action={logoutAction.bind(null, lang)}>
+                <button
+                  type="submit"
+                  className="w-full rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
+                >
+                  {labels.logout}
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href={`/${lang}/login`}
+                className="rounded-lg bg-brand px-4 py-2.5 text-center font-semibold text-white hover:bg-brand-alt"
+              >
+                {labels.signIn}
+              </Link>
+              <Link
+                href={`/${lang}/register`}
+                className="rounded-lg border-2 border-brand px-4 py-2.5 text-center font-semibold text-brand hover:bg-secondary"
+              >
+                {labels.signUp}
+              </Link>
+            </div>
+          )}
 
           <nav className="mt-4 border-t border-subtle pt-2">
             <ul>

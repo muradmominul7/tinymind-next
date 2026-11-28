@@ -16,9 +16,15 @@ const input =
 const buttonClass =
   "w-full rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-alt disabled:opacity-60";
 
-export default function CheckoutForm({ lang, labels, districts, summary }) {
+export default function CheckoutForm({ lang, labels, districts, summary, initial }) {
   const router = useRouter();
-  const [values, setValues] = useState({ name: "", phone: "", district: "", address: "" });
+  // A signed-in customer comes with name, mobile number and (if there is a past order) district and address.
+  const [values, setValues] = useState({
+    name: initial?.name ?? "",
+    phone: initial?.phone ?? "",
+    district: initial?.district ?? "",
+    address: initial?.address ?? "",
+  });
   const [phoneTouched, setPhoneTouched] = useState(false);
   const [agree, setAgree] = useState(true);
   const [consentError, setConsentError] = useState(false);
@@ -39,7 +45,7 @@ export default function CheckoutForm({ lang, labels, districts, summary }) {
   }
 
   useEffect(() => {
-    quote("");
+    quote(values.district); // "" gives the default charge; a filled-in district gives its own
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
